@@ -14,6 +14,8 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import Home from './Home';
 import NavBar from './NavBar';
+import BookList from './BookList';
+import MemberList from './MemberList';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -54,6 +56,8 @@ function App() {
               <Item>
                 <Routes>
                   <Route path='/' element={<Home theme={theme} colorMode={colorMode} />} />
+                  <Route path='/books' element={<BookList />} />
+                  <Route path='/members' element={<MemberList />} />
                 </Routes>
               </Item>
             </Grid>

@@ -25,7 +25,7 @@ export const themeSettings = mode => {
           }
         } : {
           primary: {
-            main: indigo[500],
+            main: indigo[300],
           },
           secondary: {
             main: green[500],
