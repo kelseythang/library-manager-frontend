@@ -2,17 +2,8 @@ import { createContext, useState, useMemo } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { indigo, green, grey } from '@mui/material/colors';
 
-// color tokens for app
-// export const colorTokens = (mode) => {{
-//   ...(mode === 'light') 
-//   ?
-//   :
-// }}
-
 // creates mui theme settings
-export const themeSettings = (mode) => {
-  //const colors = colorTokens(mode);
-
+export const themeSettings = mode => {
   return {
     palette: {
       mode: mode,
@@ -45,7 +36,7 @@ export const themeSettings = (mode) => {
             light: grey[100]
           },
           background: {
-            default: indigo[500]
+            default: grey[900]
           }
         }
       )
@@ -58,6 +49,7 @@ export const ColorModeContext = createContext({
   toggleColorMode: () => {}
 });
 
+// sets, updates, and exports light/dark mode state
 export const useMode = () => {
   const [mode, setMode] = useState('light');
   
