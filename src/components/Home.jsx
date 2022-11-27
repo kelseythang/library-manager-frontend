@@ -21,8 +21,9 @@ function Home({ theme, colorMode }) {
   return (
     <Box mt={2} ml={4} mr={4}>
       <Grid container spacing={2}>
+        {/* website title */}
         <Grid xs={8}>
-          <Typography variant='h1'>Test</Typography>
+          <Typography variant='h1' color='primary' sx={{ fontWeight: 'bold' }}>LIBRARY MANAGER</Typography>
         </Grid>
         {/* right-aligns light/dark mode toggle */}
         <Grid container justifyContent='flex-end' xs={4}>
@@ -30,10 +31,10 @@ function Home({ theme, colorMode }) {
             {theme.palette.mode === 'light' ? (<LightModeIcon />) : (<DarkModeIcon />) }
           </IconButton>
         </Grid>
-        <Grid xs={4}>
+        <Grid xs={2}>
           <Item>xs=4</Item>
         </Grid>
-        <Grid xs={8}>
+        <Grid xs={10}>
           <Item>xs=8</Item>
         </Grid>
       </Grid>
