@@ -4,6 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
@@ -18,16 +19,16 @@ function Home({ theme, colorMode }) {
   }));
 
   return (
-    <Box>
-      <IconButton onClick={colorMode.toggleColorMode}>
-        {theme.palette.mode === 'light' ? (<LightModeIcon />) : (<DarkModeIcon />) }
-      </IconButton>
+    <Box mt={2} ml={4} mr={4}>
       <Grid container spacing={2}>
         <Grid xs={8}>
-          <Item>xs=8</Item>
+          <Typography variant='h1'>Test</Typography>
         </Grid>
-        <Grid xs={4}>
-          <Item>xs=4</Item>
+        {/* right-aligns light/dark mode toggle */}
+        <Grid container justifyContent='flex-end' xs={4}>
+          <IconButton onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === 'light' ? (<LightModeIcon />) : (<DarkModeIcon />) }
+          </IconButton>
         </Grid>
         <Grid xs={4}>
           <Item>xs=4</Item>

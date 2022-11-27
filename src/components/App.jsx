@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ColorModeContext, useMode } from '../theme';
 import '../index.css';
@@ -11,7 +11,7 @@ function App() {
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={responsiveFontSizes(theme)}>
         <CssBaseline />
         <Routes>
           <Route path='/' element={<Home theme={theme} colorMode={colorMode} />} />
