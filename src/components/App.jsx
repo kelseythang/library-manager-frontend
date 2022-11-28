@@ -24,7 +24,6 @@ function App() {
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
 
@@ -47,7 +46,7 @@ function App() {
             </Grid>
             {/* navigation bar - bottom left with paper styling */}
             <Grid xs={2}>
-              <Item>
+              <Item sx={{ textAlign: 'center' }}>
                 <NavBar />
               </Item>
             </Grid>
