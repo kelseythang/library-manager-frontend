@@ -16,21 +16,22 @@ function MemberList() {
       .then(data => setMembers(data));
   }, []);
 
-  // function handleDeleteQuestion(deletedQuestion) {
-  //   const updatedQuestions = questions.filter(question => {
-  //     return question.id !== deletedQuestion.id;
-  //   })
-  //   setQuestions(updatedQuestions);
-  // }
+  const handleDelete = id => {
+    const updatedMembers = members.filter(member => {
+      return member.id !== id;
+    })
+    setMembers(updatedMembers);
+  }
   
-  // // handles member delete
-  // function handleDeleteClick() {
-  //   fetch(`http://localhost:9292/members${member.id}`, {
-  //     method: 'DELETE',
-  //   })
-  //     .then(resp => resp.json())
-  //     .then(() => onDeleteQuestion(question));
-  // }
+  // handles member delete
+  const handleDeleteClick = () => {
+    const id = selectionModel.row.id;
+    fetch(`http://localhost:9292/members/${id}`, {
+      method: 'DELETE',
+    })
+      .then(res => res.json())
+      .then(() => handleDelete(id));
+  }
 
   // diverts from javascript key naming convention to match database
   const columns = [
@@ -75,7 +76,10 @@ function MemberList() {
 
   return (
     <Box>
-      <Typography variant='h2' mb={2}>Members</Typography>
+      <Stack spacing={2} direction='row' justifyContent='space-between'>
+        <Typography variant='h2' mb={2}>Members</Typography>
+      <Button variant='text' color='secondary'>+ Add New</Button>
+      </Stack>
       <Box mb={2} sx={{ height: 650, width: '100%' }}>
         <DataGrid
           rows={members}
@@ -89,10 +93,10 @@ function MemberList() {
         />
       </Box>
       <Stack spacing={2} direction='row'>
-        <Button variant='contained' onClick={() => console.log(selectionModel)}>Edit</Button>
+        <Button variant='contained' onClick={() => console.log(selectionModel.row.id)}>Edit</Button>
         <Button variant='contained'>Previous Checkouts</Button>
-        <Button variant='contained'>Delete</Button>
-      </Stack>
+        <Button variant='contained' onClick={handleDeleteClick}>Delete</Button>
+      </Stack> 
     </Box>
   )
 }
