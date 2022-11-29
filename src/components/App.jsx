@@ -16,6 +16,7 @@ import Home from './Home';
 import NavBar from './NavBar';
 import BookList from './BookList';
 import MemberList from './MemberList';
+import { SnackbarContainer } from '../contexts/SnackbarContext';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -30,38 +31,40 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={responsiveFontSizes(theme)}>
-        <CssBaseline />
-        <Box mt={2} ml={4} mr={4}>
-          {/* grid layout for overall website */}
-          <Grid container spacing={2}>
-            {/* website title - top left */}
-            <Grid xs={8}>
-              <Typography variant='h1' color='primary' sx={{ fontWeight: 'bold' }}>LIBRARY MANAGER</Typography>
+        <SnackbarContainer>
+          <CssBaseline />
+          <Box mt={2} ml={4} mr={4}>
+            {/* grid layout for overall website */}
+            <Grid container spacing={2}>
+              {/* website title - top left */}
+              <Grid xs={8}>
+                <Typography variant='h1' color='primary' sx={{ fontWeight: 'bold' }}>LIBRARY MANAGER</Typography>
+              </Grid>
+              {/* right-aligns light/dark mode toggle - top right */}
+              <Grid container justifyContent='flex-end' xs={4}>
+                <IconButton onClick={colorMode.toggleColorMode}>
+                  {theme.palette.mode === 'light' ? (<LightModeIcon />) : (<DarkModeIcon />) }
+                </IconButton>
+              </Grid>
+              {/* navigation bar - bottom left with paper styling */}
+              <Grid xs={2}>
+                <Item sx={{ textAlign: 'center' }}>
+                  <NavBar />
+                </Item>
+              </Grid>
+              {/* displayed routes - bottom right with paper styling */}
+              <Grid xs={10}>
+                <Item>
+                  <Routes>
+                    <Route path='/' element={<Home theme={theme} colorMode={colorMode} />} />
+                    <Route path='/books' element={<BookList />} />
+                    <Route path='/members' element={<MemberList />} />
+                  </Routes>
+                </Item>
+              </Grid>
             </Grid>
-            {/* right-aligns light/dark mode toggle - top right */}
-            <Grid container justifyContent='flex-end' xs={4}>
-              <IconButton onClick={colorMode.toggleColorMode}>
-                {theme.palette.mode === 'light' ? (<LightModeIcon />) : (<DarkModeIcon />) }
-              </IconButton>
-            </Grid>
-            {/* navigation bar - bottom left with paper styling */}
-            <Grid xs={2}>
-              <Item sx={{ textAlign: 'center' }}>
-                <NavBar />
-              </Item>
-            </Grid>
-            {/* displayed routes - bottom right with paper styling */}
-            <Grid xs={10}>
-              <Item>
-                <Routes>
-                  <Route path='/' element={<Home theme={theme} colorMode={colorMode} />} />
-                  <Route path='/books' element={<BookList />} />
-                  <Route path='/members' element={<MemberList />} />
-                </Routes>
-              </Item>
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </SnackbarContainer>
       </ThemeProvider>
     </ColorModeContext.Provider>
   )

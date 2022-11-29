@@ -4,10 +4,19 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+import { useSetSnackbar } from '../hooks/useSnackbar';
+import StatusMessage from './StatusMessage';
 
 function MemberList() {
   const [members, setMembers] = useState([]);
   const [selectionModel, setSelectionModel] = useState([]);
+
+  // snackbar 
+  const setSnackbar = useSetSnackbar();
+
+  const handleError = (type) => {
+    setSnackbar('No member selected.', type)
+  }
 
   // useEffect to fetch members
   useEffect(() => {
@@ -15,23 +24,30 @@ function MemberList() {
       .then(res => res.json())
       .then(data => setMembers(data));
   }, []);
-
-  const handleDelete = id => {
-    const updatedMembers = members.filter(member => {
-      return member.id !== id;
-    })
-    setMembers(updatedMembers);
-  }
   
   // handles member delete
   const handleDeleteClick = () => {
-    const id = selectionModel.row.id;
-    fetch(`http://localhost:9292/members/${id}`, {
-      method: 'DELETE',
-    })
-      .then(res => res.json())
-      .then(() => handleDelete(id));
+    // displays error message if nothing is selected
+    if (Array.isArray(selectionModel) && !selectionModel.length) {
+      handleError('error');
+    } else {
+      const id = selectionModel.row.id;
+      
+      fetch(`http://localhost:9292/members/${id}`, {
+        method: 'DELETE',
+      })
+        .then(res => res.json())
+        .then(() => {
+          const updatedMembers = members.filter(member => {
+            return member.id !== id;
+          })
+
+          setMembers(updatedMembers);
+        })
+      setSelectionModel([]);
+    }
   }
+  
 
   // diverts from javascript key naming convention to match database
   const columns = [
@@ -76,8 +92,8 @@ function MemberList() {
 
   return (
     <Box>
-      <Stack spacing={2} direction='row' justifyContent='space-between'>
-        <Typography variant='h2' mb={2}>Members</Typography>
+      <Stack spacing={2} my={2} direction='row' justifyContent='space-between'>
+        <Typography variant='h2'>Members</Typography>
       <Button variant='text' color='secondary'>+ Add New</Button>
       </Stack>
       <Box mb={2} sx={{ height: 650, width: '100%' }}>
@@ -92,11 +108,14 @@ function MemberList() {
 
         />
       </Box>
-      <Stack spacing={2} direction='row'>
-        <Button variant='contained' onClick={() => console.log(selectionModel.row.id)}>Edit</Button>
-        <Button variant='contained'>Previous Checkouts</Button>
-        <Button variant='contained' onClick={handleDeleteClick}>Delete</Button>
+      <Stack direction='row' justifyContent='space-between'>
+        <Stack spacing={2} direction='row'>
+          <Button variant='contained' onClick={() => console.log(selectionModel.row.id)}>Edit</Button>
+          <Button variant='contained'>Previous Checkouts</Button>
+        </Stack>
+        <Button variant='text' color='error' onClick={handleDeleteClick}>Delete</Button>
       </Stack> 
+      <StatusMessage />
     </Box>
   )
 }
