@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { ColorModeContext, useMode } from '../theme';
+import { ColorModeContext, useMode } from '../contexts/ThemeContext';
 import '../index.css';
 import { Routes, Route } from 'react-router-dom';
 import Box from '@mui/material/Box';

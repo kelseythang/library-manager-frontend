@@ -4,6 +4,7 @@ import MuiAlert from '@mui/material/Alert';
 import { useSnackbar } from '../hooks/useSnackbar';
 
 export default function StatusMessage() {
+  // destructured from Snackbar context
   const { snackbar, setSnackbar } = useSnackbar();
   const { message, type } = snackbar;
 
