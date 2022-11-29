@@ -16,7 +16,7 @@ import Home from './Home';
 import NavBar from './NavBar';
 import BookList from './BookList';
 import MemberList from './MemberList';
-import { SnackbarContainer } from '../contexts/SnackbarContext';
+import { SnackbarContextProvider } from '../contexts/SnackbarContext';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -31,7 +31,7 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={responsiveFontSizes(theme)}>
-        <SnackbarContainer>
+        <SnackbarContextProvider>
           <CssBaseline />
           <Box mt={2} ml={4} mr={4}>
             {/* grid layout for overall website */}
@@ -64,7 +64,7 @@ function App() {
               </Grid>
             </Grid>
           </Box>
-        </SnackbarContainer>
+        </SnackbarContextProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   )

@@ -14,7 +14,7 @@ export const SnackbarProvider = memo(({ setSnackbar, children }) => {
 }
 );
 
-export const SnackbarContainer = ({ children }) => {
+export const SnackbarContextProvider = ({ children }) => {
   const [snackbar, setSnackbar] = useState({
     message: '',
     type: ''

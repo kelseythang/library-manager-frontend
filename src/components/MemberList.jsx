@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+// Snackbar context imports
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
 
@@ -11,7 +12,7 @@ function MemberList() {
   const [members, setMembers] = useState([]);
   const [selectionModel, setSelectionModel] = useState([]);
 
-  // snackbar 
+  // snackbar status message
   const setSnackbar = useSetSnackbar();
 
   const handleError = (type) => {
@@ -105,7 +106,6 @@ function MemberList() {
           onRowClick={(newSelectionModel) => {
             setSelectionModel(newSelectionModel);
           }}
-
         />
       </Box>
       <Stack direction='row' justifyContent='space-between'>
