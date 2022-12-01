@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { DataGrid } from '@mui/x-data-grid';
@@ -7,6 +6,7 @@ import Button from '@mui/material/Button';
 // Snackbar context imports
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
+import PageTitle from './PageTitle';
 
 function MemberList() {
   const [members, setMembers] = useState([]);
@@ -94,8 +94,8 @@ function MemberList() {
   return (
     <Box>
       <Stack spacing={2} my={2} direction='row' justifyContent='space-between'>
-        <Typography variant='h2'>Members</Typography>
-      <Button variant='text' color='secondary'>+ Add New</Button>
+        <PageTitle title='Members' />
+        <Button variant='text' color='secondary'>+ Add New</Button>
       </Stack>
       <Box mb={2} sx={{ height: 650, width: '100%' }}>
         <DataGrid
