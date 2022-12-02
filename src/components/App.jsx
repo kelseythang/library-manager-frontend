@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ColorModeContext, useMode } from '../contexts/ThemeContext';
@@ -22,6 +22,28 @@ import NotFound from './NotFound';
 
 function App() {
   const [theme, colorMode] = useMode();
+  const [members, setMembers] = useState([]);
+
+  // useEffect to fetch members
+  useEffect(() => {
+    fetch('http://localhost:9292/members')
+      .then(res => res.json())
+      .then(data => setMembers(data));
+  }, []);
+
+   // updates members based on form submission
+   const handleAddMember = newMember => {
+    setMembers([...members, newMember]);
+  }
+
+  // updates members based on member deletion
+  const handleDeleteMember = (id) => {
+    const updatedMembers = members.filter(member => {
+      return member.id !== id;
+    })
+
+    setMembers(updatedMembers);
+  }
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -59,10 +81,11 @@ function App() {
                 <Item>
                   <Routes>
                     <Route path='*' element={<NotFound />} />
-                    <Route path='/' element={<Home theme={theme} colorMode={colorMode} />} />
+                    <Route path='/' element={<Home />} />
                     <Route path='books' element={<BookList />} />
-                    <Route path='members' element={<MemberList />}>
-                      <Route path='new-member-form' element={<NewMemberForm />} />
+                    <Route path='members'>
+                      <Route index={true} element={<MemberList members={members} onDeleteMember={handleDeleteMember} /> } />
+                      <Route path='new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
                     </Route>
                   </Routes>
                 </Item>

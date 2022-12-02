@@ -3,14 +3,14 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-// Snackbar context imports
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
 import PageTitle from './PageTitle';
+import { useNavigate } from 'react-router-dom';
 
-function MemberList() {
-  const [members, setMembers] = useState([]);
+function MemberList({ members, onDeleteMember }) {
   const [selectionModel, setSelectionModel] = useState([]);
+  const navigate = useNavigate();
 
   // snackbar status message
   const setSnackbar = useSetSnackbar();
@@ -19,13 +19,6 @@ function MemberList() {
     setSnackbar('No member selected.', type)
   }
 
-  // useEffect to fetch members
-  useEffect(() => {
-    fetch('http://localhost:9292/members')
-      .then(res => res.json())
-      .then(data => setMembers(data));
-  }, []);
-  
   // handles member delete
   const handleDeleteClick = () => {
     // displays error message if nothing is selected
@@ -38,13 +31,8 @@ function MemberList() {
         method: 'DELETE',
       })
         .then(res => res.json())
-        .then(() => {
-          const updatedMembers = members.filter(member => {
-            return member.id !== id;
-          })
+        .then(() => onDeleteMember(id));
 
-          setMembers(updatedMembers);
-        })
       setSelectionModel([]);
     }
   }
@@ -95,7 +83,7 @@ function MemberList() {
     <Box>
       <Stack spacing={2} direction='row' justifyContent='space-between'>
         <PageTitle title='Members' />
-        <Button variant='text' color='secondary'>+ Add New</Button>
+        <Button variant='text' color='secondary' onClick={() => navigate('/members/new-member-form')}>+ Add New</Button>
       </Stack>
       <Box mb={2} sx={{ height: 650, width: '100%' }}>
         <DataGrid
