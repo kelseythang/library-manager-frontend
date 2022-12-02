@@ -93,7 +93,7 @@ function MemberList() {
 
   return (
     <Box>
-      <Stack spacing={2} my={2} direction='row' justifyContent='space-between'>
+      <Stack spacing={2} direction='row' justifyContent='space-between'>
         <PageTitle title='Members' />
         <Button variant='text' color='secondary'>+ Add New</Button>
       </Stack>
