@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
@@ -87,6 +87,10 @@ function MemberList({ members, onDeleteMember }) {
       </Stack>
       <Box mb={2} sx={{ height: 650, width: '100%' }}>
         <DataGrid
+          components={{ Toolbar: GridToolbar }}
+          disableColumnSelector
+          disableDensitySelector
+          componentsProps={{ toolbar: { printOptions: { disableToolbarButton: true } } }}
           rows={members}
           columns={columns}
           pageSize={10}
@@ -98,8 +102,8 @@ function MemberList({ members, onDeleteMember }) {
       </Box>
       <Stack direction='row' justifyContent='space-between'>
         <Stack spacing={2} direction='row'>
-          <Button variant='contained' onClick={() => console.log(selectionModel.row.id)}>Edit</Button>
-          <Button variant='contained'>Previous Checkouts</Button>
+          <Button variant='contained' onClick={() => navigate('/members/edit-member-details')}>Edit</Button>
+          <Button variant='contained'>Details</Button>
         </Stack>
         <Button variant='text' color='error' onClick={handleDeleteClick}>Delete</Button>
       </Stack> 

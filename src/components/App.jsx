@@ -19,6 +19,7 @@ import MemberList from './MemberList';
 import { SnackbarContextProvider } from '../contexts/SnackbarContext';
 import NewMemberForm from './NewMemberForm';
 import NotFound from './NotFound';
+import EditMember from './EditMember';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -86,6 +87,7 @@ function App() {
                     <Route path='members'>
                       <Route index={true} element={<MemberList members={members} onDeleteMember={handleDeleteMember} /> } />
                       <Route path='new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
+                      <Route path='edit-member-details' element={<EditMember />} />
                     </Route>
                   </Routes>
                 </Item>
