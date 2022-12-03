@@ -3,7 +3,7 @@ import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ColorModeContext, useMode } from '../contexts/ThemeContext';
 import '../index.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import { IconButton } from '@mui/material';
@@ -20,10 +20,12 @@ import { SnackbarContextProvider } from '../contexts/SnackbarContext';
 import NewMemberForm from './NewMemberForm';
 import NotFound from './NotFound';
 import EditMember from './EditMember';
+import MemberDetails from './MemberDetails';
 
 function App() {
   const [theme, colorMode] = useMode();
   const [members, setMembers] = useState([]);
+  //let { memberId } = useParams();
 
   // useEffect to fetch members
   useEffect(() => {
@@ -88,6 +90,7 @@ function App() {
                       <Route index={true} element={<MemberList members={members} onDeleteMember={handleDeleteMember} /> } />
                       <Route path='new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
                       <Route path='edit-member-details' element={<EditMember />} />
+                      <Route path=':card' element={<MemberDetails members={members} />} />
                     </Route>
                   </Routes>
                 </Item>

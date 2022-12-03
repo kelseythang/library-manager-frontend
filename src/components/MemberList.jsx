@@ -19,10 +19,16 @@ function MemberList({ members, onDeleteMember }) {
     setSnackbar('No member selected.', type)
   }
 
+  // user selection validation tests
+  const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
+  const handleDetailsClick = () => {selectionValidation ? handleError('error') 
+  // : console.log(selectionModel.id)};
+  : navigate(`/members/${selectionModel.row.library_card_number}`, { state: { member: selectionModel.row } })};
+
   // handles member delete
   const handleDeleteClick = () => {
     // displays error message if nothing is selected
-    if (Array.isArray(selectionModel) && !selectionModel.length) {
+    if (selectionValidation) {
       handleError('error');
     } else {
       const id = selectionModel.row.id;
@@ -101,10 +107,7 @@ function MemberList({ members, onDeleteMember }) {
         />
       </Box>
       <Stack direction='row' justifyContent='space-between'>
-        <Stack spacing={2} direction='row'>
-          <Button variant='contained' onClick={() => navigate('/members/edit-member-details')}>Edit</Button>
-          <Button variant='contained'>Details</Button>
-        </Stack>
+        <Button variant='contained'onClick={handleDetailsClick}>Details</Button>
         <Button variant='text' color='error' onClick={handleDeleteClick}>Delete</Button>
       </Stack> 
       <StatusMessage />

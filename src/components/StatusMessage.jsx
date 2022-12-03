@@ -14,7 +14,7 @@ export default function StatusMessage() {
   });
 
   return (
-    <Snackbar open={!!message} autoHideDuration={3000} onClose={() => setSnackbar('')}> 
+    <Snackbar open={!!message} autoHideDuration={2500} onClose={() => setSnackbar('')}> 
       <Alert severity={type} sx={{ width: '100%' }}>{message}</Alert>
     </Snackbar>
   )

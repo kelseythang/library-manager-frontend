@@ -9,7 +9,7 @@ import PageTitle from './PageTitle';
 function NewMemberForm({ onAddMember }) {
   // sets initial data for form
   const initialState = {
-    library_card_number: 12345,
+    library_card_number: 0,
     first_name: '',
     last_name: '',
     email: '',
@@ -49,14 +49,13 @@ function NewMemberForm({ onAddMember }) {
   return (
     <Box>
       <PageTitle title='New Member Form' />
-      <Box component='form' onSubmit={handleSubmit} sx={{ flexGrow: 1 }}>
+      <Box component='form' sx={{ width: 400}} onSubmit={handleSubmit}>
         <Stack spacing={2} direction='column'>
-          <Typography variant='body1'>Library Card Number: {formData.library_card_number}</Typography>
+          <Typography variant='body1'>Complete the information below:</Typography>
           <TextField
               id='outlined-required'
               label='First Name'
               InputLabelProps={{ shrink: true }}
-              fullWidth
               name='first_name'
               value={formData.first_name}
               onChange={handleInputChange}
@@ -65,7 +64,6 @@ function NewMemberForm({ onAddMember }) {
             id='outlined-required'
             label='Last Name'
             InputLabelProps={{ shrink: true }}
-            fullWidth
             name='last_name'
             value={formData.last_name}
             onChange={handleInputChange}
@@ -74,7 +72,6 @@ function NewMemberForm({ onAddMember }) {
             id='outlined-required'
             label='Email Address'
             InputLabelProps={{ shrink: true }}
-            fullWidth
             name='email'
             value={formData.email}
             onChange={handleInputChange}
@@ -84,7 +81,6 @@ function NewMemberForm({ onAddMember }) {
             label='Phone Number'
             InputLabelProps={{ shrink: true }}
             helperText='Format as 1234567890 instead of 123-456-7890'
-            fullWidth
             name='phone_number'
             value={formData.phone_number}
             onChange={handleInputChange}
