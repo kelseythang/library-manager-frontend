@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import PageTitle from './PageTitle';
+import { useSetSnackbar } from '../hooks/useSnackbar';
+import StatusMessage from './StatusMessage';
 
 function NewMemberForm({ onAddMember }) {
   // sets initial data for form
@@ -18,37 +20,43 @@ function NewMemberForm({ onAddMember }) {
     fines: 0
   }
 
-    // sets state to have controlled inputs
-    const [formData, setFormValues] = useState(initialState);
+  // sets state to have controlled inputs
+  const [formData, setFormValues] = useState(initialState);
+  const navigate = useNavigate();
 
-    // handles state change
-    const handleInputChange = e => {
-      setFormValues({
-        ...formData,
-        [e.target.name]: e.target.value,
-      });
-    };
+  // snackbar status message
+  const setSnackbar = useSetSnackbar();
 
-    // sets navigate
-    const navigate = useNavigate();
-   
-    // handles submission of form
-    const handleSubmit = e => {
-      e.preventDefault();
-      fetch('http://localhost:9292/members', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-        .then(res => res.json())
-        // updates destination state
-        .then(data => onAddMember(data));
-      
-      // clears form inputs after form submit
-      setFormValues(initialState);
-    }
+  const handleSubmitNotification = (type) => {
+    setSnackbar('Member added to database', type)
+  }
+
+  // handles state change
+  const handleInputChange = e => {
+    setFormValues({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // handles submission of form
+  const handleSubmit = e => {
+    e.preventDefault();
+    fetch('http://localhost:9292/members', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(res => res.json())
+      // updates destination state
+      .then(data => onAddMember(data));
+    
+    // clears form inputs after form submit and alerts user
+    setFormValues(initialState);
+    handleSubmitNotification('success');
+  }
 
   return (
     <Box>
@@ -95,6 +103,7 @@ function NewMemberForm({ onAddMember }) {
         </Stack>
         <Button type='submit' variant='contained'>Submit</Button>
       </Box>
+      <StatusMessage />
     </Box>
   )
 }
