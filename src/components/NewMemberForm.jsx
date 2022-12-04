@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -27,6 +28,9 @@ function NewMemberForm({ onAddMember }) {
         [e.target.name]: e.target.value,
       });
     };
+
+    // sets navigate
+    const navigate = useNavigate();
    
     // handles submission of form
     const handleSubmit = e => {
@@ -48,7 +52,10 @@ function NewMemberForm({ onAddMember }) {
 
   return (
     <Box>
-      <PageTitle title='New Member Form' />
+      <Stack spacing={2} direction='row' justifyContent='space-between'>
+        <PageTitle title='New Member Form' />
+        <Button onClick={() => navigate('/members')}>← Return to All Members</Button>
+      </Stack>
       <Box component='form' sx={{ width: 400}} onSubmit={handleSubmit}>
         <Stack spacing={2} direction='column'>
           <Typography variant='body1'>Complete the information below:</Typography>
