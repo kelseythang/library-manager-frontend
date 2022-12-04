@@ -48,6 +48,18 @@ function App() {
     setMembers(updatedMembers);
   }
 
+  // updates members based on edits
+  const handleEditMember = updatedMember => {
+    const updatedMembers = members.map(member => {
+      if (member.id === updatedMember.id) {
+        return updatedMember;
+      } else {
+        return member;
+      }
+    })
+    setMembers(updatedMembers);
+  }
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -87,10 +99,10 @@ function App() {
                     <Route path='/' element={<Home />} />
                     <Route path='books' element={<BookList />} />
                     <Route path='members'>
-                      <Route index={true} element={<MemberList members={members} onDeleteMember={handleDeleteMember} /> } />
+                      <Route index={true} element={<MemberList members={members} onDeleteMember={handleDeleteMember} onEditMember={handleEditMember} /> } />
                       <Route path='new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
                       <Route path='edit-member-details' element={<EditMember />} />
-                      <Route path=':card' element={<MemberDetails members={members} />} />
+                      <Route path=':id' element={<MemberDetails members={members} onEditMember={handleEditMember} />} />
                     </Route>
                   </Routes>
                 </Item>

@@ -8,7 +8,7 @@ import StatusMessage from './StatusMessage';
 import PageTitle from './PageTitle';
 import { useNavigate } from 'react-router-dom';
 
-function MemberList({ members, onDeleteMember }) {
+function MemberList({ members, onDeleteMember, onEditMember }) {
   const [selectionModel, setSelectionModel] = useState([]);
   const navigate = useNavigate();
 
@@ -21,9 +21,11 @@ function MemberList({ members, onDeleteMember }) {
 
   // user selection validation tests
   const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
-  const handleDetailsClick = () => {selectionValidation ? handleError('error') 
-  // : console.log(selectionModel.id)};
-  : navigate(`/members/${selectionModel.row.library_card_number}`, { state: { member: selectionModel.row } })};
+  const handleDetailsClick = () => {
+    selectionValidation 
+    ? handleError('error') 
+    : navigate(`/members/${selectionModel.row.id}`)
+  }
 
   // handles member delete
   const handleDeleteClick = () => {
@@ -91,7 +93,7 @@ function MemberList({ members, onDeleteMember }) {
         <PageTitle title='Members' />
         <Button variant='text' color='secondary' onClick={() => navigate('/members/new-member-form')}>+ Add New</Button>
       </Stack>
-      <Box mb={2} sx={{ height: 650, width: '100%' }}>
+      <Box mb={2} sx={{ height: 675, width: '100%' }}>
         <DataGrid
           components={{ Toolbar: GridToolbar }}
           disableColumnSelector
