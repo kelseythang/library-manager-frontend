@@ -8,7 +8,7 @@ import StatusMessage from './StatusMessage';
 import PageTitle from './PageTitle';
 import { useNavigate } from 'react-router-dom';
 
-function MemberList({ members, onDeleteMember, onEditMember }) {
+function MemberList({ members, onDeleteMember }) {
   const [selectionModel, setSelectionModel] = useState([]);
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ function MemberList({ members, onDeleteMember, onEditMember }) {
       handleError('error');
     } else {
       const id = selectionModel.row.id;
-      
+
       fetch(`http://localhost:9292/members/${id}`, {
         method: 'DELETE',
       })
@@ -44,47 +44,15 @@ function MemberList({ members, onDeleteMember, onEditMember }) {
       setSelectionModel([]);
     }
   }
-  
 
   // diverts from javascript key naming convention to match database
   const columns = [
-    { 
-      field: 'library_card_number',
-      headerName: 'Library Card',
-      width: 150,
-      editable: false,
-    },
-    { 
-      field: 'first_name',
-      headerName: 'First Name',
-      width: 150,
-      editable: false,
-    },
-    { 
-      field: 'last_name',
-      headerName: 'Last Name',
-      width: 150,
-      editable: false,
-    },
-    { 
-      field: 'phone_number',
-      headerName: 'Phone Number',
-      width: 150,
-      editable: false,
-    },
-    { 
-      field: 'email',
-      headerName: 'Email',
-      width: 250,
-      editable: false,
-    },
-    { 
-      field: 'fines',
-      headerName: 'Fines',
-      width: 150,
-      editable: false,
-    },
-
+    { field: 'library_card_number', headerName: 'Library Card', width: 150, editable: false },
+    { field: 'first_name', headerName: 'First Name', width: 150, editable: false },
+    { field: 'last_name', headerName: 'Last Name',width: 150, editable: false },
+    { field: 'phone_number', headerName: 'Phone Number',width: 150, editable: false },
+    { field: 'email', headerName: 'Email',width: 150, editable: false },
+    { field: 'fines', headerName: 'Fines',width: 150, editable: false }
   ]
 
   return (

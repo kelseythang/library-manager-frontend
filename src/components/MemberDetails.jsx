@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -7,11 +7,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import PageTitle from './PageTitle';
 
-function MemberDetails ({ members, onEditMember }) {
+function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   const { id } = useParams();
-  const navigate = useNavigate();
   const member = members.find(member => member.id === parseInt(id));
-  console.log(member)
+  const [selectionModel, setSelectionModel] = useState([]);
+  const navigate = useNavigate();
 
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
@@ -54,7 +54,6 @@ function MemberDetails ({ members, onEditMember }) {
     fines: 0.00
   }
  
-
   const handlePayFines = () => {
     fetch(`http://localhost:9292/members/${member.id}`, {
       method: 'PATCH',
@@ -65,6 +64,19 @@ function MemberDetails ({ members, onEditMember }) {
     })
       .then(res => res.json())
       .then(updatedFines => onEditMember(updatedFines));
+  }
+
+  // handles book check in
+  const handleCheckInClick = () => {
+    selectionModel.forEach(id => {
+      const memberId = member.id;
+      fetch(`http://localhost:9292/checkouts/${id}`, {
+        method: 'DELETE',
+      })
+        .then(res => res.json())
+        .then(() => onDeleteCheckout(id, memberId));
+    })
+    setSelectionModel([]);
   }
 
   return (
@@ -89,8 +101,13 @@ function MemberDetails ({ members, onEditMember }) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           checkboxSelection
+          onSelectionModelChange={(newSelectionModel) => {
+            setSelectionModel(newSelectionModel);
+          }}
+          selectionModel={selectionModel}
         />
-      </Box> 
+      </Box>
+      <Button variant='outlined'onClick={handleCheckInClick}>Check In Selected Items</Button>
       <Typography variant='h3' my={1}>Checkout History</Typography>
       <Box mb={2} sx={{ height: 375, width: '100%' }}>
         <DataGrid

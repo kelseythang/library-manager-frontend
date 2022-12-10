@@ -25,8 +25,9 @@ import MemberDetails from './MemberDetails';
 function App() {
   const [theme, colorMode] = useMode();
   const [members, setMembers] = useState([]);
-  //let { memberId } = useParams();
+  const [checkouts, setCheckouts] = useState([]);
 
+  // ----------------- fetch requests -----------------
   // useEffect to fetch members
   useEffect(() => {
     fetch('http://localhost:9292/members')
@@ -34,18 +35,26 @@ function App() {
       .then(data => setMembers(data));
   }, []);
 
-   // updates members based on form submission
-   const handleAddMember = newMember => {
+  // useEffect to fetch checkouts
+  useEffect(() => {
+    fetch('http://localhost:9292/checkouts')
+      .then(res => res.json())
+      .then(data => setCheckouts(data));
+  }, []);
+  
+  // ----------------- members CRUD -----------------
+  // adds members based on form submission
+  const handleAddMember = newMember => {
     setMembers([...members, newMember]);
   }
 
-  // updates members based on member deletion
+  // deletes members based on member deletion
   const handleDeleteMember = (id) => {
-    const updatedMembers = members.filter(member => {
-      return member.id !== id;
-    })
-
+    const updatedMembers = members.filter(member => member.id !== id)
     setMembers(updatedMembers);
+
+    const updatedCheckouts = checkouts.filter(checkout => checkout.member_id !== id)
+    setCheckouts(updatedCheckouts);
   }
 
   // updates members based on edits
@@ -60,6 +69,19 @@ function App() {
     setMembers(updatedMembers);
   }
 
+  // ----------------- checkouts CRUD -----------------
+  const handleDeleteCheckout = (id, memberId) => {
+    const updatedCheckouts = checkouts.filter(checkout => checkout.id !== id)
+    setCheckouts(updatedCheckouts);
+
+    const selectedMember = members.find(member => member.id === memberId);
+    const selectedMemberCheckouts = selectedMember.checkouts.filter(checkout => checkout.id !== id);
+    const updatedMember = {...selectedMember, checkouts: selectedMemberCheckouts};
+    const updatedMembers = members.map(member => (member.id === memberId) ? updatedMember : member);
+    setMembers(updatedMembers);
+  }
+
+  // ----------------- MUI background styling -----------------
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -99,10 +121,15 @@ function App() {
                     <Route path='/' element={<Home />} />
                     <Route path='books' element={<BookList />} />
                     <Route path='members'>
-                      <Route index={true} element={<MemberList members={members} onDeleteMember={handleDeleteMember} onEditMember={handleEditMember} /> } />
+                      <Route index={true} 
+                        element={<MemberList 
+                          members={members}
+                          onDeleteMember={handleDeleteMember}
+                        /> } 
+                      />
                       <Route path='new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
                       <Route path='edit-member-details' element={<EditMember />} />
-                      <Route path=':id' element={<MemberDetails members={members} onEditMember={handleEditMember} />} />
+                      <Route path=':id' element={<MemberDetails members={members} onEditMember={handleEditMember} onDeleteCheckout={handleDeleteCheckout}  />} />
                     </Route>
                   </Routes>
                 </Item>
