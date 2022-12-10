@@ -19,7 +19,6 @@ import MemberList from './MemberList';
 import { SnackbarContextProvider } from '../contexts/SnackbarContext';
 import NewMemberForm from './NewMemberForm';
 import NotFound from './NotFound';
-import EditMember from './EditMember';
 import MemberDetails from './MemberDetails';
 
 function App() {
@@ -120,12 +119,9 @@ function App() {
                     <Route path='*' element={<NotFound />} />
                     <Route path='/' element={<Home />} />
                     <Route path='books' element={<BookList />} />
-                    <Route path='members'>
-                      <Route index={true} element={<MemberList members={members} onDeleteMember={handleDeleteMember}/> } />
-                      <Route path='new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
-                      <Route path='edit-member-details' element={<EditMember />} />
-                      <Route path=':id' element={<MemberDetails members={members} onEditMember={handleEditMember} onDeleteCheckout={handleDeleteCheckout}  />} />
-                    </Route>
+                    <Route path='members' element={<MemberList members={members} onDeleteMember={handleDeleteMember}/> } />
+                    <Route path='members/new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
+                    <Route path='members/:id' element={<MemberDetails members={members} onEditMember={handleEditMember} onDeleteCheckout={handleDeleteCheckout}  />} />
                   </Routes>
                 </Item>
               </Grid>
