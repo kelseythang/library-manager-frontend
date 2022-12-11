@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
 import PageTitle from './PageTitle';
@@ -59,7 +60,7 @@ function MemberList({ members, onDeleteMember }) {
     <Box>
       <Stack spacing={2} direction='row' justifyContent='space-between'>
         <PageTitle title='Members' />
-        <Button variant='text' color='secondary' onClick={() => navigate('/members/new-member-form')}>+ Add New</Button>
+        <Button variant='text' color='secondary' onClick={() => navigate('/members/new-member-form')}>Add New<PersonAddIcon sx={{ ml: 1 }}/></Button>
       </Stack>
       <Box mb={2} sx={{ height: 675, width: '100%' }}>
         <DataGrid

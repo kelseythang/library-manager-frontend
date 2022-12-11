@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import PageTitle from './PageTitle';
-import BasicGrid from './BasicGrid';
 import Button from '@mui/material/Button';
+import GridCheckbox from './GridCheckbox';
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
 
@@ -55,7 +55,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
     <Box>
       <Box>
         <PageTitle title='Checkouts' />
-        <BasicGrid height={650} pageSize={10} rows={rows} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
+        <GridCheckbox height={650} pageSize={10} rows={rows} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       </Box>
       <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
       <StatusMessage />

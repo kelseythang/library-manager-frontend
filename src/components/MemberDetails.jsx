@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { DataGrid } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import PageTitle from './PageTitle';
+import GridCheckbox from './GridCheckbox';
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
 
@@ -104,19 +105,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
       </Box>
       <Button variant='outlined' color='secondary' onClick={handlePayFines}>Pay Fines in Full</Button>
       <Typography variant='h3' my={1}>Current Checkouts</Typography>
-      <Box mb={2} sx={{ height: 275, width: '100%' }}>
-        <DataGrid
-          rows={currentCheckouts}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          onSelectionModelChange={(newSelectionModel) => {
-            setSelectionModel(newSelectionModel);
-          }}
-          selectionModel={selectionModel}
-        />
-      </Box>
+      <GridCheckbox height={275} pageSize={5} rows={currentCheckouts} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
       <Typography variant='h3' my={1}>Checkout History</Typography>
       <Box mb={2} sx={{ height: 375, width: '100%' }}>

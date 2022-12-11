@@ -26,20 +26,28 @@ function App() {
   const [theme, colorMode] = useMode();
   const [members, setMembers] = useState([]);
   const [checkouts, setCheckouts] = useState([]);
+  const [books, setBooks] = useState([]);
 
   // ----------------- fetch requests -----------------
-  // useEffect to fetch members
-  useEffect(() => {
-    fetch('http://localhost:9292/members')
-      .then(res => res.json())
-      .then(data => setMembers(data));
-  }, []);
-
   // useEffect to fetch checkouts
   useEffect(() => {
     fetch('http://localhost:9292/checkouts')
       .then(res => res.json())
       .then(data => setCheckouts(data));
+  }, []);
+
+  // useEffect to fetch books
+  useEffect(() => {
+    fetch('http://localhost:9292/books')
+      .then(res => res.json())
+      .then(data => setBooks(data));
+  }, []);
+
+  // useEffect to fetch members
+  useEffect(() => {
+    fetch('http://localhost:9292/members')
+      .then(res => res.json())
+      .then(data => setMembers(data));
   }, []);
   
   // ----------------- members CRUD -----------------
@@ -118,9 +126,9 @@ function App() {
                 <Item>
                   <Routes>
                     <Route path='*' element={<NotFound />} />
-                    <Route path='/' element={<Home />} />
-                    <Route path='books' element={<BookList />} />
+                    <Route path='/' element={<Home checkouts={checkouts.length} books={books.length} members={members.length} />} />
                     <Route path='checkouts' element={<CheckoutList checkouts={checkouts} onDeleteCheckout={handleDeleteCheckout} />} />
+                    <Route path='books' element={<BookList />} />
                     <Route path='members' element={<MemberList members={members} onDeleteMember={handleDeleteMember}/> } />
                     <Route path='members/new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
                     <Route path='members/:id' element={<MemberDetails members={members} onEditMember={handleEditMember} onDeleteCheckout={handleDeleteCheckout}  />} />
