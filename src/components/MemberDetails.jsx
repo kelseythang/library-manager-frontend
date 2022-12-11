@@ -16,7 +16,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
     { field: 'author', headerName: 'Author', width: 200 },
-    { field: 'date', headerName: 'Checkout Date', width: 200 },
+    { field: 'date', headerName: 'Checkout Date', width: 200 }
   ]
   
   // information for current checkouts data 
