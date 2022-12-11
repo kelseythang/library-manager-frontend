@@ -120,7 +120,7 @@ function App() {
                     <Route path='*' element={<NotFound />} />
                     <Route path='/' element={<Home />} />
                     <Route path='books' element={<BookList />} />
-                    <Route path='checkouts' element={<CheckoutList checkouts={checkouts} />} />
+                    <Route path='checkouts' element={<CheckoutList checkouts={checkouts} onDeleteCheckout={handleDeleteCheckout} />} />
                     <Route path='members' element={<MemberList members={members} onDeleteMember={handleDeleteMember}/> } />
                     <Route path='members/new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
                     <Route path='members/:id' element={<MemberDetails members={members} onEditMember={handleEditMember} onDeleteCheckout={handleDeleteCheckout}  />} />

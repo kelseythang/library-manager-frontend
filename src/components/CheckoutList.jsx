@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import PageTitle from './PageTitle';
 import BasicGrid from './BasicGrid';
+import Button from '@mui/material/Button';
 
-function CheckoutList({ checkouts }) {
+function CheckoutList({ checkouts, onDeleteCheckout }) {
   const [selectionModel, setSelectionModel] = useState([]);
-  console.log(checkouts)
   
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
@@ -27,12 +27,27 @@ function CheckoutList({ checkouts }) {
     return rows.push(container);
   })
 
-  console.log(rows)
+    // handles book check in
+    const handleCheckInClick = () => {
+      selectionModel.forEach(id => {
+        const checkout = checkouts.find(checkout => checkout.id === id);
+        const memberId = checkout.member.id;
+        fetch(`http://localhost:9292/checkouts/${id}`, {
+          method: 'DELETE',
+        })
+          .then(res => res.json())
+          .then(() => onDeleteCheckout(id, memberId));
+      })
+      setSelectionModel([]);
+      }
 
   return (
     <Box>
-      <PageTitle title='Checkouts' />
-      <BasicGrid height={650} pageSize={10} rows={rows} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
+      <Box>
+        <PageTitle title='Checkouts' />
+        <BasicGrid height={650} pageSize={10} rows={rows} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
+      </Box>
+      <Button variant='outlined'onClick={handleCheckInClick}>Check In Selected Items</Button>
     </Box>
   )
 }
