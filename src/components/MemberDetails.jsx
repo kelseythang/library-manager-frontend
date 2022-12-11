@@ -6,12 +6,21 @@ import Button from '@mui/material/Button';
 import { DataGrid } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import PageTitle from './PageTitle';
+import { useSetSnackbar } from '../hooks/useSnackbar';
+import StatusMessage from './StatusMessage';
 
 function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   const { id } = useParams();
   const member = members.find(member => member.id === parseInt(id));
   const [selectionModel, setSelectionModel] = useState([]);
   const navigate = useNavigate();
+
+  // snackbar status message
+  const setSnackbar = useSetSnackbar();
+
+  const handleCheckIn = (type) => {
+    setSnackbar('Check In Successful', type)
+  }
 
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
@@ -77,6 +86,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
         .then(() => onDeleteCheckout(id, memberId));
     })
     setSelectionModel([]);
+    handleCheckIn('success');
   }
 
   return (
@@ -118,6 +128,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
           disableSelectionOnClick
         />
       </Box>
+      <StatusMessage />
     </Box>
   )
 }

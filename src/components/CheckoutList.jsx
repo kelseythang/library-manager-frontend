@@ -3,11 +3,19 @@ import Box from '@mui/material/Box';
 import PageTitle from './PageTitle';
 import BasicGrid from './BasicGrid';
 import Button from '@mui/material/Button';
-import { indigo } from '@mui/material/colors';
+import { useSetSnackbar } from '../hooks/useSnackbar';
+import StatusMessage from './StatusMessage';
 
 function CheckoutList({ checkouts, onDeleteCheckout }) {
   const [selectionModel, setSelectionModel] = useState([]);
-  
+
+  // snackbar status message
+  const setSnackbar = useSetSnackbar();
+
+  const handleCheckIn = (type) => {
+    setSnackbar('Check In Successful', type)
+  }
+
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
     { field: 'memberName', headerName: 'Member', width: 200 },
@@ -40,6 +48,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
           .then(() => onDeleteCheckout(id, memberId));
       })
       setSelectionModel([]);
+      handleCheckIn('success');
       }
 
   return (
@@ -49,6 +58,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
         <BasicGrid height={650} pageSize={10} rows={rows} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       </Box>
       <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
+      <StatusMessage />
     </Box>
   )
 }
