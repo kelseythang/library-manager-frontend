@@ -10,7 +10,7 @@ export const themeSettings = mode => {
       ...(mode === 'light'
         ? {
           primary: {
-            main: indigo[200],
+            main: indigo[300],
           },
           secondary: {
             main: green[500],

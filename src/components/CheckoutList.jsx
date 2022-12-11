@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import PageTitle from './PageTitle';
 import BasicGrid from './BasicGrid';
 import Button from '@mui/material/Button';
+import { indigo } from '@mui/material/colors';
 
 function CheckoutList({ checkouts, onDeleteCheckout }) {
   const [selectionModel, setSelectionModel] = useState([]);
@@ -47,7 +48,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
         <PageTitle title='Checkouts' />
         <BasicGrid height={650} pageSize={10} rows={rows} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       </Box>
-      <Button variant='outlined'onClick={handleCheckInClick}>Check In Selected Items</Button>
+      <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
     </Box>
   )
 }

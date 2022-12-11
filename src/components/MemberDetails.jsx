@@ -107,7 +107,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
           selectionModel={selectionModel}
         />
       </Box>
-      <Button variant='outlined'onClick={handleCheckInClick}>Check In Selected Items</Button>
+      <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
       <Typography variant='h3' my={1}>Checkout History</Typography>
       <Box mb={2} sx={{ height: 375, width: '100%' }}>
         <DataGrid
