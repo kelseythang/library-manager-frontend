@@ -7,6 +7,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
 import PageTitle from './PageTitle';
+import GridCheckbox from './GridCheckbox';
 import { useNavigate } from 'react-router-dom';
 
 function MemberList({ members, onDeleteMember }) {
@@ -25,7 +26,7 @@ function MemberList({ members, onDeleteMember }) {
   const handleDetailsClick = () => {
     selectionValidation 
     ? handleError('error') 
-    : navigate(`/members/${selectionModel.row.id}`)
+    : navigate(`/members/${selectionModel}`)
   }
 
   // handles member delete
@@ -34,7 +35,7 @@ function MemberList({ members, onDeleteMember }) {
     if (selectionValidation) {
       handleError('error');
     } else {
-      const id = selectionModel.row.id;
+      const id = selectionModel[0];
 
       fetch(`http://localhost:9292/members/${id}`, {
         method: 'DELETE',
@@ -62,21 +63,7 @@ function MemberList({ members, onDeleteMember }) {
         <PageTitle title='Members' />
         <Button variant='text' color='secondary' onClick={() => navigate('/members/new-member-form')}>Add New<PersonAddIcon sx={{ ml: 1 }}/></Button>
       </Stack>
-      <Box mb={2} sx={{ height: 675, width: '100%' }}>
-        <DataGrid
-          components={{ Toolbar: GridToolbar }}
-          disableColumnSelector
-          disableDensitySelector
-          componentsProps={{ toolbar: { printOptions: { disableToolbarButton: true } } }}
-          rows={members}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          onRowClick={(newSelectionModel) => {
-            setSelectionModel(newSelectionModel);
-          }}
-        />
-      </Box>
+      <GridCheckbox height={650} pageSize={10} rows={members} columns={columns} setCheckbox={false} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       <Stack direction='row' justifyContent='space-between'>
         <Button variant='contained'onClick={handleDetailsClick}>Details</Button>
         <Button variant='text' color='error' onClick={handleDeleteClick}>Delete</Button>

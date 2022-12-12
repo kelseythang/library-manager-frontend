@@ -55,7 +55,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
     <Box mx={3} mb={3}>
       <Box>
         <PageTitle title='Checkouts' />
-        <GridCheckbox height={650} pageSize={10} rows={rows} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
+        <GridCheckbox height={650} pageSize={10} rows={rows} columns={columns} setCheckbox={true} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       </Box>
       <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
       <StatusMessage />

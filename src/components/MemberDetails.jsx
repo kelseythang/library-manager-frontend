@@ -105,7 +105,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
       </Box>
       <Button variant='outlined' color='secondary' onClick={handlePayFines}>Pay Fines in Full</Button>
       <Typography variant='h3' my={1}>Current Checkouts</Typography>
-      <GridCheckbox height={275} pageSize={5} rows={currentCheckouts} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
+      <GridCheckbox height={275} pageSize={5} rows={currentCheckouts} columns={columns} setCheckbox={true} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
       <Typography variant='h3' my={1}>Checkout History</Typography>
       <Box mb={2} sx={{ height: 375, width: '100%' }}>
