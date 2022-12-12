@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import MuiPhoneNumber from 'material-ui-phone-number-2';
+import { hasFlag } from 'country-flag-icons';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -20,6 +22,8 @@ function NewMemberForm({ onAddMember }) {
     fines: 0
   }
 
+ 
+
   // sets state to have controlled inputs
   const [formData, setFormValues] = useState(initialState);
   const navigate = useNavigate();
@@ -37,6 +41,13 @@ function NewMemberForm({ onAddMember }) {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handlePhoneInputChange = e => {
+    setFormValues({
+      ...formData,
+      phone_number: e,
+    })
   };
 
   // handles submission of form
@@ -65,18 +76,20 @@ function NewMemberForm({ onAddMember }) {
         <Button onClick={() => navigate('/members')}>← Return to All Members</Button>
       </Stack>
       <Box component='form' sx={{ width: 400}} onSubmit={handleSubmit}>
-        <Stack spacing={2} direction='column'>
+        <Stack spacing={2} mb={2} direction='column'>
           <Typography variant='body1'>Complete the information below:</Typography>
           <TextField
-              id='outlined-required'
-              label='First Name'
-              InputLabelProps={{ shrink: true }}
-              name='first_name'
-              value={formData.first_name}
-              onChange={handleInputChange}
+            id='outlined-required'
+            variant='outlined'
+            label='First Name'
+            InputLabelProps={{ shrink: true }}
+            name='first_name'
+            value={formData.first_name}
+            onChange={handleInputChange}
           />
           <TextField
             id='outlined-required'
+            variant='outlined'
             label='Last Name'
             InputLabelProps={{ shrink: true }}
             name='last_name'
@@ -85,20 +98,21 @@ function NewMemberForm({ onAddMember }) {
           />
           <TextField
             id='outlined-required'
+            variant='outlined'
             label='Email Address'
             InputLabelProps={{ shrink: true }}
             name='email'
             value={formData.email}
             onChange={handleInputChange}
           />
-          <TextField
-            id='outlined-required'
+          <MuiPhoneNumber
+            variant='outlined'
+            defaultCountry='us'
             label='Phone Number'
-            InputLabelProps={{ shrink: true }}
-            helperText='Format as 1234567890 instead of 123-456-7890'
             name='phone_number'
+            data-cy="user-phone"
             value={formData.phone_number}
-            onChange={handleInputChange}
+            onChange={handlePhoneInputChange}
           />
         </Stack>
         <Button type='submit' variant='contained'>Submit</Button>
