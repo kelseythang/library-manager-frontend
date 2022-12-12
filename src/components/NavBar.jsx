@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 
 function NavBar() {
-  // defines active link style
+  // ----------------- Active Link Style ----------------- //
   const navBarStyle = {
     '&.active': {
       color: 'primary.main',
@@ -16,7 +16,7 @@ function NavBar() {
 
   return (
     <Box sx={{ typography: 'body1' }}>
-      <Stack spacing={2} py={2} divider={<Divider orientation='horizontal' flexItem />}>
+      <Stack direction='row' spacing={2} py={2} divider={<Divider orientation='horizontal' flexItem />}>
         <Link component={RouterLink} color='neutral.dark' underline='none' sx={navBarStyle} to='/'>HOME</Link>
         <Link component={RouterLink} color='neutral.dark' underline='none' sx={navBarStyle} to='/books'>BOOKS</Link>
         <Link component={RouterLink} color='neutral.dark' underline='none' sx={navBarStyle} to='/checkouts'>CHECKOUTS</Link>

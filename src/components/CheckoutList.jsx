@@ -52,7 +52,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
       }
 
   return (
-    <Box>
+    <Box mx={3} mb={3}>
       <Box>
         <PageTitle title='Checkouts' />
         <GridCheckbox height={650} pageSize={10} rows={rows} columns={columns} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />

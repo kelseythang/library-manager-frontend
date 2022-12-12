@@ -15,7 +15,7 @@ function Home({ checkouts, books, members }) {
   const elementHover = { '&:hover': { color: 'primary.main' } };
 
   return (
-    <Box>
+    <Box mx={3} mb={3}>
       <PageTitle title='Library Dashboard' />
       <Stack 
         direction={{ xs: 'column', sm: 'row' }} 

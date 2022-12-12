@@ -50,14 +50,14 @@ function MemberList({ members, onDeleteMember }) {
   const columns = [
     { field: 'library_card_number', headerName: 'Library Card', width: 150, editable: false },
     { field: 'first_name', headerName: 'First Name', width: 150, editable: false },
-    { field: 'last_name', headerName: 'Last Name',width: 150, editable: false },
-    { field: 'phone_number', headerName: 'Phone Number',width: 150, editable: false },
-    { field: 'email', headerName: 'Email',width: 150, editable: false },
-    { field: 'fines', headerName: 'Fines',width: 150, editable: false }
+    { field: 'last_name', headerName: 'Last Name', width: 150, editable: false },
+    { field: 'phone_number', headerName: 'Phone Number', width: 150, editable: false },
+    { field: 'email', headerName: 'Email', width: 300, editable: false },
+    { field: 'fines', headerName: 'Fines', width: 100, editable: false }
   ]
 
   return (
-    <Box>
+    <Box mx={3} mb={3}>
       <Stack spacing={2} direction='row' justifyContent='space-between'>
         <PageTitle title='Members' />
         <Button variant='text' color='secondary' onClick={() => navigate('/members/new-member-form')}>Add New<PersonAddIcon sx={{ ml: 1 }}/></Button>

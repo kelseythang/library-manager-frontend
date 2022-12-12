@@ -91,7 +91,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   }
 
   return (
-    <Box>
+    <Box mx={3} mb={3}>
       <Stack spacing={2} direction='row' justifyContent='space-between'>
         <PageTitle title='Member Details' />
         <Button onClick={() => navigate('/members')}>← Return to All Members</Button>

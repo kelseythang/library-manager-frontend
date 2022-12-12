@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { ColorModeContext, useMode } from '../contexts/ThemeContext';
 import '../index.css';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
-import { IconButton } from '@mui/material';
+import { Icon, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import MenuIcon from '@mui/icons-material/Menu';
 import Home from './Home';
 import NavBar from './NavBar';
+import NavBarDrawer from './NavBarDrawer';
 import BookList from './BookList';
 import CheckoutList from './CheckoutList';
 import MemberList from './MemberList';
@@ -27,8 +31,10 @@ function App() {
   const [members, setMembers] = useState([]);
   const [checkouts, setCheckouts] = useState([]);
   const [books, setBooks] = useState([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  // ----------------- fetch requests -----------------
+  // ----------------- fetch requests ----------------- //
   // useEffect to fetch checkouts
   useEffect(() => {
     fetch('http://localhost:9292/checkouts')
@@ -50,7 +56,7 @@ function App() {
       .then(data => setMembers(data));
   }, []);
   
-  // ----------------- members CRUD -----------------
+  // ----------------- members CRUD ----------------- //
   // adds members based on form submission
   const handleAddMember = newMember => {
     setMembers([...members, newMember]);
@@ -77,7 +83,7 @@ function App() {
     setMembers(updatedMembers);
   }
 
-  // ----------------- checkouts CRUD -----------------
+  // ----------------- checkouts CRUD ----------------- //
   const handleDeleteCheckout = (id, memberId) => {
     const updatedCheckouts = checkouts.filter(checkout => checkout.id !== id)
     setCheckouts(updatedCheckouts);
@@ -89,7 +95,7 @@ function App() {
     setMembers(updatedMembers);
   }
 
-  // ----------------- MUI background styling -----------------
+  // ----------------- MUI background styling ----------------- // 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -102,40 +108,34 @@ function App() {
       <ThemeProvider theme={responsiveFontSizes(theme)}>
         <SnackbarContextProvider>
           <CssBaseline />
-          <Box mt={2} ml={4} mr={4}>
-            {/* grid layout for overall website */}
-            <Grid container spacing={2}>
-              {/* website title - top left */}
-              <Grid xs={8}>
-                <Typography variant='h1' color='primary' sx={{ fontWeight: 'bold' }}>LIBRARY MANAGER</Typography>
-              </Grid>
-              {/* right-aligns light/dark mode toggle - top right */}
-              <Grid container justifyContent='flex-end' xs={4}>
+          <Box my={4} mx={4}>
+            <Stack mb={3} direction='row' justifyContent='space-between' spacing={2}>
+              <Typography variant='h1' color='primary' sx={{ fontWeight: 'bold' }}>LIBRARY MANAGER</Typography>
+              <Stack direction='row' alignItems='center' spacing={3}>
+                {isMobile ? (
+                  <>
+                    <IconButton onClick={() => setIsDrawerOpen(true)}>
+                      <MenuIcon />
+                    </IconButton>
+                  <NavBarDrawer isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
+                  </>  
+                ) : (<NavBar />) }
                 <IconButton onClick={colorMode.toggleColorMode}>
                   {theme.palette.mode === 'light' ? (<LightModeIcon />) : (<DarkModeIcon />) }
                 </IconButton>
-              </Grid>
-              {/* navigation bar - bottom left with paper styling */}
-              <Grid xs={2}>
-                <Item sx={{ textAlign: 'center' }}>
-                  <NavBar />
-                </Item>
-              </Grid>
-              {/* displayed routes - bottom right with paper styling */}
-              <Grid xs={10}>
-                <Item>
-                  <Routes>
-                    <Route path='*' element={<NotFound />} />
-                    <Route path='/' element={<Home checkouts={checkouts.length} books={books.length} members={members.length} />} />
-                    <Route path='checkouts' element={<CheckoutList checkouts={checkouts} onDeleteCheckout={handleDeleteCheckout} />} />
-                    <Route path='books' element={<BookList />} />
-                    <Route path='members' element={<MemberList members={members} onDeleteMember={handleDeleteMember}/> } />
-                    <Route path='members/new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
-                    <Route path='members/:id' element={<MemberDetails members={members} onEditMember={handleEditMember} onDeleteCheckout={handleDeleteCheckout}  />} />
-                  </Routes>
-                </Item>
-              </Grid>
-            </Grid>
+              </Stack>
+            </Stack>
+            <Item>
+              <Routes>
+                <Route path='*' element={<NotFound />} />
+                <Route path='/' element={<Home checkouts={checkouts.length} books={books.length} members={members.length} />} />
+                <Route path='checkouts' element={<CheckoutList checkouts={checkouts} onDeleteCheckout={handleDeleteCheckout} />} />
+                <Route path='books' element={<BookList />} />
+                <Route path='members' element={<MemberList members={members} onDeleteMember={handleDeleteMember}/> } />
+                <Route path='members/new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
+                <Route path='members/:id' element={<MemberDetails members={members} onEditMember={handleEditMember} onDeleteCheckout={handleDeleteCheckout}  />} />
+              </Routes>
+            </Item>
           </Box>
         </SnackbarContextProvider>
       </ThemeProvider>
