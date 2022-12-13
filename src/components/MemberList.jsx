@@ -3,11 +3,11 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { useSetSnackbar } from '../hooks/useSnackbar';
-import StatusMessage from './StatusMessage';
 import PageTitle from './PageTitle';
 import DataGridCustom from './DataGridCustom';
 import { useNavigate } from 'react-router-dom';
+import { useSetSnackbar } from '../hooks/useSnackbar';
+import StatusMessage from './StatusMessage';
 
 function MemberList({ members, onDeleteMember }) {
   const [selectionModel, setSelectionModel] = useState([]);

@@ -17,13 +17,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Home from './Home';
 import NavBar from './NavBar';
 import NavBarDrawer from './NavBarDrawer';
-import BookList from './BookList';
 import CheckoutList from './CheckoutList';
+import BookList from './BookList';
+import NewBookForm from './NewBookForm';
 import MemberList from './MemberList';
 import NewMemberForm from './NewMemberForm';
 import MemberDetails from './MemberDetails';
 import NotFound from './NotFound';
 import { SnackbarContextProvider } from '../contexts/SnackbarContext';
+
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -55,6 +57,12 @@ function App() {
       .then(data => setMembers(data));
   }, []);
   
+  // ----------------- books CRUD ----------------- //
+  // adds book based on form submission
+  const handleAddBook = (newBook) => {
+    setBooks([...books, newBook]);
+  }
+
   // ----------------- members CRUD ----------------- //
   // adds members based on form submission
   const handleAddMember = newMember => {
@@ -66,7 +74,7 @@ function App() {
     const updatedMembers = members.filter(member => member.id !== id)
     setMembers(updatedMembers);
 
-    const updatedCheckouts = checkouts.filter(checkout => checkout.member_id !== id)
+    const updatedCheckouts = checkouts.filter(checkout => checkout.member.id !== id)
     setCheckouts(updatedCheckouts);
   }
 
@@ -83,9 +91,14 @@ function App() {
   }
 
   // ----------------- checkouts CRUD ----------------- //
-  const handleDeleteCheckout = (id, memberId) => {
+  const handleDeleteCheckout = (id, bookId, memberId) => {
     const updatedCheckouts = checkouts.filter(checkout => checkout.id !== id);
     setCheckouts(updatedCheckouts);
+
+    const selectedBook = books.find(book => book.id === bookId);
+    const updatedBook = {...selectedBook, checkout: null, is_checked_out: false };
+    const updatedBooks = books.map(book => (book.id === bookId) ? updatedBook : book);
+    setBooks(updatedBooks);
 
     const selectedMember = members.find(member => member.id === memberId);
     const selectedMemberCheckouts = selectedMember.checkouts.filter(checkout => checkout.id !== id);
@@ -129,7 +142,8 @@ function App() {
                 <Route path='*' element={<NotFound />} />
                 <Route path='/' element={<Home checkouts={checkouts.length} books={books.length} members={members.length} />} />
                 <Route path='checkouts' element={<CheckoutList checkouts={checkouts} onDeleteCheckout={handleDeleteCheckout} />} />
-                <Route path='books' element={<BookList />} />
+                <Route path='books' element={<BookList books={books} onDeleteCheckout={handleDeleteCheckout} />} />
+                <Route path='books/new-book-form' element={<NewBookForm onAddBook={handleAddBook} />} />
                 <Route path='members' element={<MemberList members={members} onDeleteMember={handleDeleteMember}/> } />
                 <Route path='members/new-member-form' element={<NewMemberForm onAddMember={handleAddMember} />} />
                 <Route path='members/:id' element={<MemberDetails members={members} onEditMember={handleEditMember} onDeleteCheckout={handleDeleteCheckout}  />} />

@@ -42,17 +42,25 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
   const handleCheckInClick = () => {
     // displays error message if nothing is selected
     if (selectionValidation) {
-      handleNotification('No member selected','error')
+      handleNotification('No book selected','error')
     } else {
       const id = selectionModel[0];
       const checkout = checkouts.find(checkout => checkout.id === id);
+      const bookId = checkout.book.id;
       const memberId = checkout.member.id;
 
       fetch(`http://localhost:9292/checkouts/${id}`, {
         method: 'DELETE',
       })
         .then(res => res.json())
-        .then(() => onDeleteCheckout(id, memberId));
+        .then(() => onDeleteCheckout(id, bookId, memberId));
+
+      fetch(`http://localhost:9292/books/${bookId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({is_checked_out: false}),
+      })
+        .then(res => res.json())
 
       setSelectionModel([]);
       handleNotification('Check In Successful', 'success');

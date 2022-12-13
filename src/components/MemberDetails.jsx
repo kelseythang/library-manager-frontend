@@ -79,13 +79,23 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   // handles book check in
   const handleCheckInClick = () => {
     const id = selectionModel[0];
+    const checkout = member.checkouts.find(checkout => checkout.id === id);
+    const bookId = checkout.book.id;
     const memberId = member.id;
+
     fetch(`http://localhost:9292/checkouts/${id}`, {
       method: 'DELETE',
     })
       .then(res => res.json())
-      .then(() => onDeleteCheckout(id, memberId));
-  
+      .then(() => onDeleteCheckout(id, bookId, memberId));
+
+    fetch(`http://localhost:9292/books/${bookId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({is_checked_out: false}),
+    })
+      .then(res => res.json())
+
     setSelectionModel([]);
     handleNotification('Check In Successful', 'success');
   }

@@ -18,8 +18,8 @@ function NavBar() {
     <Box sx={{ typography: 'body1' }}>
       <Stack direction='row' spacing={2} py={2} divider={<Divider orientation='horizontal' flexItem />}>
         <Link component={RouterLink} color='neutral.dark' underline='none' sx={navBarStyle} to='/'>HOME</Link>
-        <Link component={RouterLink} color='neutral.dark' underline='none' sx={navBarStyle} to='/books'>BOOKS</Link>
         <Link component={RouterLink} color='neutral.dark' underline='none' sx={navBarStyle} to='/checkouts'>CHECKOUTS</Link>
+        <Link component={RouterLink} color='neutral.dark' underline='none' sx={navBarStyle} to='/books'>BOOKS</Link>
         <Link component={RouterLink} color='neutral.dark' underline='none' sx={navBarStyle} to='/members'>MEMBERS</Link>
       </Stack>
     </Box>
