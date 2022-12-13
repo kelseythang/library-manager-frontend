@@ -6,7 +6,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useSetSnackbar } from '../hooks/useSnackbar';
 import StatusMessage from './StatusMessage';
 import PageTitle from './PageTitle';
-import GridCheckbox from './GridCheckbox';
+import DataGridCustom from './DataGridCustom';
 import { useNavigate } from 'react-router-dom';
 
 function MemberList({ members, onDeleteMember }) {
@@ -22,7 +22,7 @@ function MemberList({ members, onDeleteMember }) {
 
   // user selection validation tests
   const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
-  
+
   const handleDetailsClick = () => {
     selectionValidation 
     ? handleNotification('No member selected','error') 
@@ -63,7 +63,7 @@ function MemberList({ members, onDeleteMember }) {
         <PageTitle title='Members' />
         <Button variant='text' color='secondary' onClick={() => navigate('/members/new-member-form')}>Add New<PersonAddIcon sx={{ ml: 1 }}/></Button>
       </Stack>
-      <GridCheckbox height={650} pageSize={10} rows={members} columns={columns} setCheckbox={false} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
+      <DataGridCustom height={650} pageSize={10} rows={members} columns={columns} setCheckbox={false} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       <Stack direction='row' justifyContent='space-between'>
         <Button variant='contained'onClick={handleDetailsClick}>Details</Button>
         <Button variant='text' color='error' onClick={handleDeleteClick}>Delete</Button>

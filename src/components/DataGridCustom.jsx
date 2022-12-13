@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
-function GridCheckbox ({ height, pageSize, rows, columns, setCheckbox, selectionModel, setSelectionModel }) {
+function DataGridCustom({ height, pageSize, rows, columns, setCheckbox, selectionModel, setSelectionModel }) {
   return (
     <Box mb={2} sx={{ height: height, width: 'auto' }}>
       <DataGrid
@@ -29,4 +29,4 @@ function GridCheckbox ({ height, pageSize, rows, columns, setCheckbox, selection
   )
 }
 
-export default GridCheckbox;
+export default DataGridCustom;
