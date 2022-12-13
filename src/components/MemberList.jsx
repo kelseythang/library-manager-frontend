@@ -15,16 +15,17 @@ function MemberList({ members, onDeleteMember }) {
 
   // snackbar status message
   const setSnackbar = useSetSnackbar();
-
-  const handleError = (type) => {
-    setSnackbar('No member selected.', type)
+ 
+  const handleNotification = (message, type) => {
+    setSnackbar(message, type)
   }
 
   // user selection validation tests
   const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
+  
   const handleDetailsClick = () => {
     selectionValidation 
-    ? handleError('error') 
+    ? handleNotification('No member selected','error') 
     : navigate(`/members/${selectionModel}`)
   }
 
@@ -32,7 +33,7 @@ function MemberList({ members, onDeleteMember }) {
   const handleDeleteClick = () => {
     // displays error message if nothing is selected
     if (selectionValidation) {
-      handleError('error');
+      handleNotification('No member selected','error')
     } else {
       const id = selectionModel[0];
 

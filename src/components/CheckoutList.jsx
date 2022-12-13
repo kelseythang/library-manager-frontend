@@ -36,8 +36,14 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
     return rows.push(container);
   })
 
-    // handles book check in
-    const handleCheckInClick = () => {
+  // handles book check in
+  const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
+
+  const handleCheckInClick = () => {
+    // displays error message if nothing is selected
+    if (selectionValidation) {
+      handleNotification('No member selected','error')
+    } else {
       const id = selectionModel[0];
       const checkout = checkouts.find(checkout => checkout.id === id);
       const memberId = checkout.member.id;
@@ -51,6 +57,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
       setSelectionModel([]);
       handleNotification('Check In Successful', 'success');
     }
+  }
 
   return (
     <Box mx={3} mb={3}>
