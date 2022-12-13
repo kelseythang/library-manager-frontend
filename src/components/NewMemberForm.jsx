@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import MuiPhoneNumber from 'material-ui-phone-number-2';
-import { hasFlag } from 'country-flag-icons';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -21,8 +20,6 @@ function NewMemberForm({ onAddMember }) {
     phone_number: '',
     fines: 0
   }
-
- 
 
   // sets state to have controlled inputs
   const [formData, setFormValues] = useState(initialState);
@@ -110,7 +107,7 @@ function NewMemberForm({ onAddMember }) {
             defaultCountry='us'
             label='Phone Number'
             name='phone_number'
-            data-cy="user-phone"
+            data-cy='user-phone'
             value={formData.phone_number}
             onChange={handlePhoneInputChange}
           />

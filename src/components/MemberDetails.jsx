@@ -78,14 +78,14 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
 
   // handles book check in
   const handleCheckInClick = () => {
-    selectionModel.forEach(id => {
-      const memberId = member.id;
-      fetch(`http://localhost:9292/checkouts/${id}`, {
-        method: 'DELETE',
-      })
-        .then(res => res.json())
-        .then(() => onDeleteCheckout(id, memberId));
+    const id = selectionModel[0];
+    const memberId = member.id;
+    fetch(`http://localhost:9292/checkouts/${id}`, {
+      method: 'DELETE',
     })
+      .then(res => res.json())
+      .then(() => onDeleteCheckout(id, memberId));
+  
     setSelectionModel([]);
     handleCheckIn('success');
   }
@@ -105,7 +105,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
       </Box>
       <Button variant='outlined' color='secondary' onClick={handlePayFines}>Pay Fines in Full</Button>
       <Typography variant='h3' my={1}>Current Checkouts</Typography>
-      <GridCheckbox height={275} pageSize={5} rows={currentCheckouts} columns={columns} setCheckbox={true} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
+      <GridCheckbox height={275} pageSize={5} rows={currentCheckouts} columns={columns} setCheckbox={false} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
       <Typography variant='h3' my={1}>Checkout History</Typography>
       <Box mb={2} sx={{ height: 375, width: '100%' }}>

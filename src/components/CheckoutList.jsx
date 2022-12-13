@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import PageTitle from './PageTitle';
 import Button from '@mui/material/Button';
@@ -38,24 +38,25 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
 
     // handles book check in
     const handleCheckInClick = () => {
-      selectionModel.forEach(id => {
-        const checkout = checkouts.find(checkout => checkout.id === id);
-        const memberId = checkout.member.id;
-        fetch(`http://localhost:9292/checkouts/${id}`, {
-          method: 'DELETE',
-        })
-          .then(res => res.json())
-          .then(() => onDeleteCheckout(id, memberId));
+      const id = selectionModel[0];
+      const checkout = checkouts.find(checkout => checkout.id === id);
+      const memberId = checkout.member.id;
+
+      fetch(`http://localhost:9292/checkouts/${id}`, {
+        method: 'DELETE',
       })
+        .then(res => res.json())
+        .then(() => onDeleteCheckout(id, memberId));
+
       setSelectionModel([]);
       handleCheckIn('success');
-      }
+    }
 
   return (
     <Box mx={3} mb={3}>
       <Box>
         <PageTitle title='Checkouts' />
-        <GridCheckbox height={650} pageSize={10} rows={rows} columns={columns} setCheckbox={true} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
+        <GridCheckbox height={650} pageSize={10} rows={rows} columns={columns} setCheckbox={false} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       </Box>
       <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
       <StatusMessage />

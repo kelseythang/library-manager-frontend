@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import {flushSync} from 'react-dom';
 import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -85,7 +86,7 @@ function App() {
 
   // ----------------- checkouts CRUD ----------------- //
   const handleDeleteCheckout = (id, memberId) => {
-    const updatedCheckouts = checkouts.filter(checkout => checkout.id !== id)
+    const updatedCheckouts = checkouts.filter(checkout => checkout.id !== id);
     setCheckouts(updatedCheckouts);
 
     const selectedMember = members.find(member => member.id === memberId);
