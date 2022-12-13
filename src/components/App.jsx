@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {flushSync} from 'react-dom';
 import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,8 +7,7 @@ import '../index.css';
 import { Routes, Route } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Unstable_Grid2';
-import { Icon, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -144,4 +142,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
