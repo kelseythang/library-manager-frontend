@@ -19,8 +19,8 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   // snackbar status message
   const setSnackbar = useSetSnackbar();
 
-  const handleCheckIn = (type) => {
-    setSnackbar('Check In Successful', type)
+  const handleNotification = (message, type) => {
+    setSnackbar(message, type)
   }
 
   const columns = [
@@ -87,7 +87,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
       .then(() => onDeleteCheckout(id, memberId));
   
     setSelectionModel([]);
-    handleCheckIn('success');
+    handleNotification('Check In Successful', 'success');
   }
 
   return (
