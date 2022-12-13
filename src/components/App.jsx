@@ -3,7 +3,6 @@ import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { ColorModeContext, useMode } from '../contexts/ThemeContext';
-import '../index.css';
 import { Routes, Route } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
