@@ -116,7 +116,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
       <Button variant='outlined' color='secondary' onClick={handlePayFines}>Pay Fines in Full</Button>
       <Typography variant='h3' my={1}>Current Checkouts</Typography>
       <DataGridCustom height={275} pageSize={5} rows={currentCheckouts} columns={columns} setCheckbox={false} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
-      <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
+      <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Book</Button>
       <Typography variant='h3' my={1}>Checkout History</Typography>
       <Box mb={2} sx={{ height: 375, width: '100%' }}>
         <DataGrid

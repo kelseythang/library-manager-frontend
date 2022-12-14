@@ -73,7 +73,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
         <PageTitle title='Checkouts' />
         <DataGridCustom height={650} pageSize={10} rows={rows} columns={columns} setCheckbox={false} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
       </Box>
-      <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
+      <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Book</Button>
       <StatusMessage />
     </Box>
   )
