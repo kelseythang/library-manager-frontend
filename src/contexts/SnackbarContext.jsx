@@ -9,10 +9,11 @@ export const SnackbarProvider = memo(({ setSnackbar, children }) => {
   }
 
   return (
-    <SnackbarSetContext.Provider value={handleSnackbarSet}>{children}</SnackbarSetContext.Provider>
+    <SnackbarSetContext.Provider value={handleSnackbarSet}>
+      {children}
+    </SnackbarSetContext.Provider>
   )
-}
-);
+})
 
 export const SnackbarContextProvider = ({ children }) => {
   const [snackbar, setSnackbar] = useState({

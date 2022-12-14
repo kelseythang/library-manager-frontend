@@ -1,7 +1,5 @@
-	
 import { useContext } from 'react';
 import { SnackbarValueContext, SnackbarSetContext } from '../contexts/SnackbarContext';
- 
 	
 const useSetSnackbar = () => useContext(SnackbarSetContext);
  
@@ -11,14 +9,7 @@ const useSnackbar = () => {
   const setSnackbar = useContext(SnackbarSetContext);
   const snackbar = useContext(SnackbarValueContext);
  
-  return {
-    setSnackbar,
-    snackbar
-  }
-};
+  return { setSnackbar, snackbar }
+}
  
-export {
-  useSetSnackbar,
-  useGetSnackbar,
-  useSnackbar
-};
+export { useSetSnackbar, useGetSnackbar, useSnackbar }
