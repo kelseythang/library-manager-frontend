@@ -2,75 +2,58 @@ import { createContext, useState, useMemo } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { indigo, green, grey } from '@mui/material/colors';
 
-// creates mui theme settings
+////////////////////////////////////////////////////////
+//                   creates MUI theme                //
+////////////////////////////////////////////////////////
+
 export const themeSettings = mode => {
   return {
     palette: {
       mode: mode,
       ...(mode === 'light'
         ? {
-          primary: {
-            main: indigo[300],
-          },
-          secondary: {
-            main: green[500],
-          },
+          primary: { main: indigo[300] },
+          secondary: { main: green[500] },
           neutral: {
             dark: grey[700],
             main: grey[500],
             light: grey[100]
           },
-          background: {
-            default: '#fcfcfc'
-          }
+          background: { default: '#fcfcfc' }
         } : {
-          primary: {
-            main: indigo[300],
-          },
-          secondary: {
-            main: green[500],
-          },
+          primary: { main: indigo[300] },
+          secondary: { main: green[500] },
           neutral: {
             dark: grey[700],
             main: grey[500],
             light: grey[100]
           },
-          background: {
-            default: grey[900]
-          }
+          background: { default: grey[900] }
         }
       )
     },
     // typography settings
     typography: {
-      h1: {
-        fontSize: 40
-      },
-      h2: {
-        fontSize: 32
-      },
-      h3: {
-        fontSize: 24
-      },
-      h4: {
-        fontSize: 20
-      },
-      h5: {
-        fontSize: 16
-      },
-      h6: {
-        fontSize: 14
-      }
+      h1: { fontSize: 40 },
+      h2: { fontSize: 32 },
+      h3: { fontSize: 24 },
+      h4: { fontSize: 20 },
+      h5: { fontSize: 16 },
+      h6: { fontSize: 14 }
     }
   }
 }
 
-// color mode context
-export const ColorModeContext = createContext({
-  toggleColorMode: () => {}
-});
+////////////////////////////////////////////////////////
+//               creates colorMode context            //
+////////////////////////////////////////////////////////
 
-// sets, updates, and exports light/dark mode state
+export const ColorModeContext = createContext({ toggleColorMode: () => {} });
+
+////////////////////////////////////////////////////////
+//  sets, updates, and exports light/dark mode state  //
+////////////////////////////////////////////////////////
+
 export const useMode = () => {
   const [mode, setMode] = useState('light');
   
@@ -78,7 +61,7 @@ export const useMode = () => {
     toggleColorMode: () => setMode(prevMode => prevMode === 'dark' ? 'light' : 'dark'),
   }), []);
 
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode])
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
   return [theme, colorMode];
 }
