@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
+import { ColorModeContext, useMode } from '../contexts/ThemeContext';
+import { SnackbarContextProvider } from '../contexts/SnackbarContext';
 import CssBaseline from '@mui/material/CssBaseline';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { ColorModeContext, useMode } from '../contexts/ThemeContext';
 import { Routes, Route } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { IconButton } from '@mui/material';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -23,8 +24,6 @@ import MemberList from './MemberList';
 import NewMemberForm from './NewMemberForm';
 import MemberDetails from './MemberDetails';
 import NotFound from './NotFound';
-import { SnackbarContextProvider } from '../contexts/SnackbarContext';
-
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -34,7 +33,10 @@ function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  // ----------------- fetch requests ----------------- //
+  ////////////////////////////////////////////////////////
+  //                    fetch requests                  //
+  ////////////////////////////////////////////////////////
+
   // useEffect to fetch checkouts
   useEffect(() => {
     fetch('http://localhost:9292/checkouts')
@@ -55,41 +57,11 @@ function App() {
       .then(res => res.json())
       .then(data => setMembers(data));
   }, []);
-  
-  // ----------------- books CRUD ----------------- //
-  // adds book based on form submission
-  const handleAddBook = (newBook) => {
-    setBooks([...books, newBook]);
-  }
 
-  // ----------------- members CRUD ----------------- //
-  // adds members based on form submission
-  const handleAddMember = newMember => {
-    setMembers([...members, newMember]);
-  }
+  /////////////////////////////////////////////////////////
+  //                    checkouts CRUD                   //
+  /////////////////////////////////////////////////////////
 
-  // deletes members based on member deletion
-  const handleDeleteMember = (id) => {
-    const updatedMembers = members.filter(member => member.id !== id)
-    setMembers(updatedMembers);
-
-    const updatedCheckouts = checkouts.filter(checkout => checkout.member.id !== id)
-    setCheckouts(updatedCheckouts);
-  }
-
-  // updates members based on edits
-  const handleEditMember = updatedMember => {
-    const updatedMembers = members.map(member => {
-      if (member.id === updatedMember.id) {
-        return updatedMember;
-      } else {
-        return member;
-      }
-    })
-    setMembers(updatedMembers);
-  }
-
-  // ----------------- checkouts CRUD ----------------- //
   const handleDeleteCheckout = (id, bookId, memberId) => {
     const updatedCheckouts = checkouts.filter(checkout => checkout.id !== id);
     setCheckouts(updatedCheckouts);
@@ -106,7 +78,43 @@ function App() {
     setMembers(updatedMembers);
   }
 
-  // ----------------- MUI background styling ----------------- // 
+  /////////////////////////////////////////////////////////
+  //                      books CRUD                     //
+  /////////////////////////////////////////////////////////
+
+  // adds book based on form submission
+  const handleAddBook = (newBook) => {
+    setBooks([...books, newBook]);
+  }
+
+  /////////////////////////////////////////////////////////
+  //                     members CRUD                    //
+  /////////////////////////////////////////////////////////
+
+  // adds member based on form submission
+  const handleAddMember = newMember => {
+    setMembers([...members, newMember]);
+  }
+
+  // deletes member based on member deletion
+  const handleDeleteMember = (id) => {
+    const updatedMembers = members.filter(member => member.id !== id)
+    setMembers(updatedMembers);
+
+    const updatedCheckouts = checkouts.filter(checkout => checkout.member.id !== id)
+    setCheckouts(updatedCheckouts);
+  }
+
+  // updates member based on edits
+  const handleEditMember = updatedMember => {
+    const updatedMembers = members.map(member => (member.id === updatedMember.id) ? updatedMember : member);
+    setMembers(updatedMembers);
+  }
+
+  /////////////////////////////////////////////////////////
+  //                 MUI background styling              //
+  /////////////////////////////////////////////////////////
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -132,7 +140,7 @@ function App() {
                   </>  
                 ) : (<NavBar />) }
                 <IconButton onClick={colorMode.toggleColorMode}>
-                  {theme.palette.mode === 'light' ? (<LightModeIcon />) : (<DarkModeIcon />) }
+                  {theme.palette.mode === 'light' ? (<LightModeIcon />) : (<DarkModeIcon />)}
                 </IconButton>
               </Stack>
             </Stack>

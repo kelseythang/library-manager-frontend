@@ -59,21 +59,16 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
     return checkoutHistory.push(container);
   })
 
-  // patch
-  const updatedMember = {
-    fines: 0.00
-  }
- 
   const handlePayFines = () => {
-    fetch(`http://localhost:9292/members/${member.id}`, {
+    const memberObj = {...member, fines: 0.00};
+
+    fetch(`http://localhost:9292/members/${memberObj.id}`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedMember),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(memberObj),
     })
-      .then(res => res.json())
-      .then(updatedFines => onEditMember(updatedFines));
+    .then(res => res.json())
+    .then(updatedFines => onEditMember(updatedFines));
   }
 
   // handles book check in
@@ -83,9 +78,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
     const bookId = checkout.book.id;
     const memberId = member.id;
 
-    fetch(`http://localhost:9292/checkouts/${id}`, {
-      method: 'DELETE',
-    })
+    fetch(`http://localhost:9292/checkouts/${id}`, { method: 'DELETE' })
       .then(res => res.json())
       .then(() => onDeleteCheckout(id, bookId, memberId));
 
