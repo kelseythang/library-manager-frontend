@@ -52,9 +52,7 @@ function NewMemberForm({ onAddMember }) {
     e.preventDefault();
     fetch('http://localhost:9292/members', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     })
       .then(res => res.json())

@@ -1,6 +1,6 @@
-import React  from 'react'
-import Snackbar from '@mui/material/Snackbar';
+import React  from 'react';
 import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import { useSnackbar } from '../hooks/useSnackbar';
 
 export default function StatusMessage() {

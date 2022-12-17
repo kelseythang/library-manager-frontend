@@ -46,7 +46,7 @@ function NewBookForm({ onAddBook }) {
   const setSnackbar = useSetSnackbar();
 
   const handleNotification = (message, type) => {
-    setSnackbar(message, type)
+    setSnackbar(message, type);
   }
 
   // handles state change

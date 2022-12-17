@@ -13,7 +13,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
   const setSnackbar = useSetSnackbar();
 
   const handleNotification = (message, type) => {
-    setSnackbar(message, type)
+    setSnackbar(message, type);
   }
 
   const columns = [
