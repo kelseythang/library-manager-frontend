@@ -81,7 +81,7 @@ function BookList({ books, onDeleteCheckout }) {
         <Button variant='text' color='secondary' onClick={() => navigate('/books/new-book-form')}>Add New<LibraryAddIcon sx={{ ml: 1 }}/></Button>
       </Stack>
       <DataGridCustom height={650} pageSize={10} rows={rows} columns={columns} setCheckbox={false} selectionModel={selectionModel} setSelectionModel={setSelectionModel} />
-      <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Items</Button>
+      <Button variant='contained' onClick={handleCheckInClick}>Check In Selected Book</Button>
       <StatusMessage />
   </Box>
   )
