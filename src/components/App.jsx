@@ -30,6 +30,7 @@ function App() {
   const [checkouts, setCheckouts] = useState([]);
   const [books, setBooks] = useState([]);
   const [members, setMembers] = useState([]);
+  
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -57,9 +58,19 @@ function App() {
   //                    checkouts CRUD                   //
   /////////////////////////////////////////////////////////
 
-  const handleDeleteCheckout = checkoutRes => {
-    console.log(checkoutRes)
-    setCheckouts(checkoutRes);
+  const handleDeleteCheckout = (updatedCheckouts, id, bookId, memberId) => {
+    setCheckouts(updatedCheckouts);
+
+    const selectedBook = books.find(book => book.id === bookId);
+    const updatedBook = {...selectedBook, checkout: null, is_checked_out: false };
+    const updatedBooks = books.map(book => (book.id === bookId) ? updatedBook : book);
+    setBooks(updatedBooks);
+
+    const selectedMember = members.find(member => member.id === memberId);
+    const selectedMemberCheckouts = selectedMember.checkouts.filter(checkout => checkout.id !== id);
+    const updatedMember = {...selectedMember, checkouts: selectedMemberCheckouts};
+    const updatedMembers = members.map(member => (member.id === memberId) ? updatedMember : member);
+    setMembers(updatedMembers);
   }
 
   /////////////////////////////////////////////////////////

@@ -19,7 +19,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   // snackbar status message
   const setSnackbar = useSetSnackbar();
   const handleNotification = (message, type) => setSnackbar(message, type);
-  console.log('page loading')
+
   // information for column headers
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
@@ -67,19 +67,29 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
       body: JSON.stringify(memberObj),
     })
     .then(res => res.json())
-    .then(data => onEditMember(data));
+    .then((data) => onEditMember(data));
   }
 
   // handles book check in
+  const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
+
   const handleCheckInClick = () => {
-    const id = selectionModel[0];
+    // displays error message if nothing is selected
+    if (selectionValidation) {
+      handleNotification('No book selected','error')
+    } else {
+      const id = selectionModel[0];
+      const checkout = member.checkouts.find(checkout => checkout.id === id);
+      const bookId = checkout.book.id;
+      const memberId = member.id;
 
-    fetch(`http://localhost:9292/checkouts/${id}`, { method: 'DELETE' })
-      .then(res => res.json())
-      .then(data => onDeleteCheckout(data));
+      fetch(`http://localhost:9292/checkouts/${id}`, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(data => onDeleteCheckout(data, id, bookId, memberId));
 
-    setSelectionModel([]);
-    handleNotification('Check In Successful', 'success');
+      setSelectionModel([]);
+      handleNotification('Check In Successful', 'success');
+    }
   }
 
   return (
@@ -114,4 +124,4 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   )
 }
 
-export default React.memo(MemberDetails);
+export default MemberDetails;

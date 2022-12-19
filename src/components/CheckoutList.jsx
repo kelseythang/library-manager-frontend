@@ -12,13 +12,15 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
   // snackbar status message
   const setSnackbar = useSetSnackbar();
   const handleNotification = (message, type) => setSnackbar(message, type);
-  console.log('rendering')
+
+  // information for column headers
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
     { field: 'memberName', headerName: 'Member', width: 200 },
     { field: 'date', headerName: 'Checkout Date', width: 200 }
   ]
 
+  // information for current checkouts data 
   const rows = [];
   checkouts?.map(checkout => {
     const container = {};
@@ -42,12 +44,13 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
       handleNotification('No book selected','error')
     } else {
       const id = selectionModel[0];
+      const checkout = checkouts.find(checkout => checkout.id === id);
+      const bookId = checkout.book.id;
+      const memberId = checkout.member.id;
 
-      fetch(`http://localhost:9292/checkouts/${id}`, {
-        method: 'DELETE',
-      })
+      fetch(`http://localhost:9292/checkouts/${id}`, { method: 'DELETE' })
         .then(res => res.json())
-        .then(data => onDeleteCheckout(data));
+        .then(data => onDeleteCheckout(data, id, bookId, memberId));
 
       setSelectionModel([]);
       handleNotification('Check In Successful', 'success');
@@ -66,4 +69,4 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
   )
 }
 
-export default React.memo(CheckoutList);
+export default CheckoutList;
