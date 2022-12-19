@@ -6,9 +6,9 @@ import App from './components/App';
 const root = createRoot(document.getElementById('root'));
 
 root.render(
-  <>
+  <StrictMode>
     <Router>
       <App />
     </Router>
-  </>
+  </StrictMode>
 );

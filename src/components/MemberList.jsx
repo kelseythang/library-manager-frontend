@@ -41,9 +41,7 @@ function MemberList({ members, onDeleteMember }) {
       const id = selectionModel[0];
 
       if (handleCheckoutValidation(id)) {
-        fetch(`http://localhost:9292/members/${id}`, {
-          method: 'DELETE',
-        })
+        fetch(`http://localhost:9292/members/${id}`, { method: 'DELETE' })
           .then(res => res.json())
           .then(data => onDeleteMember(data));
   

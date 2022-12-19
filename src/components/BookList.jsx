@@ -15,10 +15,7 @@ function BookList({ books, onDeleteCheckout }) {
 
   // snackbar status message
   const setSnackbar = useSetSnackbar();
-
-  const handleNotification = (message, type) => {
-    setSnackbar(message, type);
-  }
+  const handleNotification = (message, type) => setSnackbar(message, type);
 
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
@@ -46,31 +43,32 @@ function BookList({ books, onDeleteCheckout }) {
   // handles book check in
   const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
 
+  const handleCheckInValidation = id => {
+    const book = books.find(book => book.id === id);
+    return book.is_checked_out;
+  }
+
   const handleCheckInClick = () => {
     // displays error message if nothing is selected
     if (selectionValidation) {
       handleNotification('No book selected','error')
     } else {
       const bookId = selectionModel[0];
-      const book = books.find(book => book.id === bookId);
-      const id = book.checkout.id;
-      const memberId = book.checkout.member.id;
 
-      fetch(`http://localhost:9292/checkouts/${id}`, {
-        method: 'DELETE',
-      })
-        .then(res => res.json())
-        .then(() => onDeleteCheckout(id, bookId, memberId));
-
-      fetch(`http://localhost:9292/books/${bookId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({is_checked_out: false}),
-      })
-        .then(res => res.json())
-
-      setSelectionModel([]);
-      handleNotification('Check In Successful', 'success');
+      if (handleCheckInValidation(bookId)) {
+        const book = books.find(book => book.id === bookId);
+        const id = book.checkout.id;
+        const memberId = book.checkout.member.id;
+  
+        fetch(`http://localhost:9292/checkouts/${id}`, { method: 'DELETE' })
+          .then(res => res.json())
+          .then((data) => onDeleteCheckout(data, id, bookId, memberId));
+  
+        setSelectionModel([]);
+        handleNotification('Check In Successful', 'success');
+      } else {
+        handleNotification('Book is Not Checked Out','error');
+      }
     }
   }
 
