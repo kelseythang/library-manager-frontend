@@ -18,11 +18,9 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
 
   // snackbar status message
   const setSnackbar = useSetSnackbar();
+  const handleNotification = (message, type) => setSnackbar(message, type);
 
-  const handleNotification = (message, type) => {
-    setSnackbar(message, type)
-  }
-
+  // information for column headers
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
     { field: 'author', headerName: 'Author', width: 200 },
@@ -59,6 +57,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
     return checkoutHistory.push(container);
   })
 
+  // handles pay fines click -- PATCH
   const handlePayFines = () => {
     const memberObj = {...member, fines: 0.00};
 
@@ -68,7 +67,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
       body: JSON.stringify(memberObj),
     })
     .then(res => res.json())
-    .then(updatedFines => onEditMember(updatedFines));
+    .then(data => onEditMember(data));
   }
 
   // handles book check in

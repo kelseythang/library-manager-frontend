@@ -92,18 +92,13 @@ function App() {
   /////////////////////////////////////////////////////////
 
   // adds member based on form submission
-  const handleAddMember = newMember => {
-    setMembers([...members, newMember]);
-  }
+  const handleAddMember = newMember => setMembers([...members, newMember]);
 
   // deletes member based on member deletion
   const handleDeleteMember = memberRes => setMembers(memberRes);
 
   // updates member based on edits
-  const handleEditMember = updatedMember => {
-    const updatedMembers = members.map(member => (member.id === updatedMember.id) ? updatedMember : member);
-    setMembers(updatedMembers);
-  }
+  const handleEditMember = updatedMember => setMembers(updatedMember);
 
   /////////////////////////////////////////////////////////
   //                 MUI background styling              //
