@@ -15,16 +15,13 @@ function MemberList({ members, onDeleteMember }) {
 
   // snackbar status message
   const setSnackbar = useSetSnackbar();
- 
-  const handleNotification = (message, type) => {
-    setSnackbar(message, type)
-  }
+  const handleNotification = (message, type) => setSnackbar(message, type);
 
   // user selection validation tests - is Array Empty
   const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
 
   const handleCheckoutValidation = id => {
-    const member = members.find(member => member.id === id)
+    const member = members.find(member => member.id === id);
     return Array.isArray(member.checkouts) && !member.checkouts.length;
   }
   
