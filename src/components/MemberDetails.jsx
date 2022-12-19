@@ -19,7 +19,7 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   // snackbar status message
   const setSnackbar = useSetSnackbar();
   const handleNotification = (message, type) => setSnackbar(message, type);
-
+  console.log('page loading')
   // information for column headers
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
@@ -73,20 +73,10 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   // handles book check in
   const handleCheckInClick = () => {
     const id = selectionModel[0];
-    const checkout = member.checkouts.find(checkout => checkout.id === id);
-    const bookId = checkout.book.id;
-    const memberId = member.id;
 
     fetch(`http://localhost:9292/checkouts/${id}`, { method: 'DELETE' })
       .then(res => res.json())
-      .then(() => onDeleteCheckout(id, bookId, memberId));
-
-    fetch(`http://localhost:9292/books/${bookId}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({is_checked_out: false}),
-    })
-      .then(res => res.json())
+      .then(data => onDeleteCheckout(data));
 
     setSelectionModel([]);
     handleNotification('Check In Successful', 'success');
@@ -124,4 +114,4 @@ function MemberDetails ({ members, onEditMember, onDeleteCheckout }) {
   )
 }
 
-export default MemberDetails;
+export default React.memo(MemberDetails);

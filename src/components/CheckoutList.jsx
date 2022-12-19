@@ -11,11 +11,8 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
 
   // snackbar status message
   const setSnackbar = useSetSnackbar();
-
-  const handleNotification = (message, type) => {
-    setSnackbar(message, type);
-  }
-
+  const handleNotification = (message, type) => setSnackbar(message, type);
+  console.log('rendering')
   const columns = [
     { field: 'title', headerName: 'Title', width: 500 },
     { field: 'memberName', headerName: 'Member', width: 200 },
@@ -23,7 +20,7 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
   ]
 
   const rows = [];
-  checkouts.map(checkout => {
+  checkouts?.map(checkout => {
     const container = {};
     const utcDate = checkout.created_at;
     const date = new Date(utcDate).toLocaleString();
@@ -45,22 +42,12 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
       handleNotification('No book selected','error')
     } else {
       const id = selectionModel[0];
-      const checkout = checkouts.find(checkout => checkout.id === id);
-      const bookId = checkout.book.id;
-      const memberId = checkout.member.id;
 
       fetch(`http://localhost:9292/checkouts/${id}`, {
         method: 'DELETE',
       })
         .then(res => res.json())
-        .then(() => onDeleteCheckout(id, bookId, memberId));
-
-      fetch(`http://localhost:9292/books/${bookId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({is_checked_out: false}),
-      })
-        .then(res => res.json())
+        .then(data => onDeleteCheckout(data));
 
       setSelectionModel([]);
       handleNotification('Check In Successful', 'success');
@@ -79,4 +66,4 @@ function CheckoutList({ checkouts, onDeleteCheckout }) {
   )
 }
 
-export default CheckoutList;
+export default React.memo(CheckoutList);

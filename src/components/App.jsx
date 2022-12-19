@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import { ColorModeContext, useMode } from '../contexts/ThemeContext';
 import { SnackbarContextProvider } from '../contexts/SnackbarContext';
@@ -27,55 +27,39 @@ import NotFound from './NotFound';
 
 function App() {
   const [theme, colorMode] = useMode();
-  const [members, setMembers] = useState([]);
   const [checkouts, setCheckouts] = useState([]);
   const [books, setBooks] = useState([]);
+  const [members, setMembers] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   ////////////////////////////////////////////////////////
   //                    fetch requests                  //
   ////////////////////////////////////////////////////////
-
-  // useEffect to fetch checkouts
   useEffect(() => {
-    fetch('http://localhost:9292/checkouts')
-      .then(res => res.json())
-      .then(data => setCheckouts(data));
-  }, []);
-
-  // useEffect to fetch books
-  useEffect(() => {
-    fetch('http://localhost:9292/books')
-      .then(res => res.json())
-      .then(data => setBooks(data));
-  }, []);
-
-  // useEffect to fetch members
-  useEffect(() => {
-    fetch('http://localhost:9292/members')
-      .then(res => res.json())
-      .then(data => setMembers(data));
-  }, []);
+    Promise.all([
+      fetch('http://localhost:9292/checkouts'),
+      fetch('http://localhost:9292/books'),
+      fetch('http://localhost:9292/members')
+    ]).then(responses =>
+      Promise.all(responses.map(response => response.json()))
+    ).then(data => {
+      setCheckouts(data[0]);
+      setBooks(data[1]);
+      setMembers(data[2]);
+    }
+    ).catch(err =>
+      console.log(err)
+    )
+  }, [])
 
   /////////////////////////////////////////////////////////
   //                    checkouts CRUD                   //
   /////////////////////////////////////////////////////////
 
-  const handleDeleteCheckout = (id, bookId, memberId) => {
-    const updatedCheckouts = checkouts.filter(checkout => checkout.id !== id);
-    setCheckouts(updatedCheckouts);
-
-    const selectedBook = books.find(book => book.id === bookId);
-    const updatedBook = {...selectedBook, checkout: null, is_checked_out: false };
-    const updatedBooks = books.map(book => (book.id === bookId) ? updatedBook : book);
-    setBooks(updatedBooks);
-
-    const selectedMember = members.find(member => member.id === memberId);
-    const selectedMemberCheckouts = selectedMember.checkouts.filter(checkout => checkout.id !== id);
-    const updatedMember = {...selectedMember, checkouts: selectedMemberCheckouts};
-    const updatedMembers = members.map(member => (member.id === memberId) ? updatedMember : member);
-    setMembers(updatedMembers);
+  const handleDeleteCheckout = checkoutRes => {
+    console.log(checkoutRes)
+    setCheckouts(checkoutRes);
   }
 
   /////////////////////////////////////////////////////////
@@ -83,9 +67,7 @@ function App() {
   /////////////////////////////////////////////////////////
 
   // adds book based on form submission
-  const handleAddBook = (newBook) => {
-    setBooks([...books, newBook]);
-  }
+  const handleAddBook = (newBook) => setBooks([...books, newBook]);
 
   /////////////////////////////////////////////////////////
   //                     members CRUD                    //
