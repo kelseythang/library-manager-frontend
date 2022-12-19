@@ -20,16 +20,22 @@ function MemberList({ members, onDeleteMember }) {
     setSnackbar(message, type)
   }
 
-  // user selection validation tests
+  // user selection validation tests - is Array Empty
   const selectionValidation = Array.isArray(selectionModel) && !selectionModel.length;
 
+  const handleCheckoutValidation = id => {
+    const member = members.find(member => member.id === id)
+    return Array.isArray(member.checkouts) && !member.checkouts.length;
+  }
+  
+  // handles details click
   const handleDetailsClick = () => {
     selectionValidation 
     ? handleNotification('No member selected','error') 
     : navigate(`/members/${selectionModel}`)
   }
 
-  // handles member delete
+  // handles delete click
   const handleDeleteClick = () => {
     // displays error message if nothing is selected
     if (selectionValidation) {
@@ -37,13 +43,18 @@ function MemberList({ members, onDeleteMember }) {
     } else {
       const id = selectionModel[0];
 
-      fetch(`http://localhost:9292/members/${id}`, {
-        method: 'DELETE',
-      })
-        .then(res => res.json())
-        .then(() => onDeleteMember(id));
-
-      setSelectionModel([]);
+      if (handleCheckoutValidation(id)) {
+        fetch(`http://localhost:9292/members/${id}`, {
+          method: 'DELETE',
+        })
+          .then(res => res.json())
+          .then(data => onDeleteMember(data));
+  
+        setSelectionModel([]);
+        handleNotification('Member Deleted','success') 
+      } else {
+        handleNotification('Cannot Delete - Member Has Current Checkouts','error') 
+      }
     }
   }
 

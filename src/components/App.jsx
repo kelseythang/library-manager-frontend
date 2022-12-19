@@ -97,13 +97,7 @@ function App() {
   }
 
   // deletes member based on member deletion
-  const handleDeleteMember = (id) => {
-    const updatedMembers = members.filter(member => member.id !== id)
-    setMembers(updatedMembers);
-
-    const updatedCheckouts = checkouts.filter(checkout => checkout.member.id !== id)
-    setCheckouts(updatedCheckouts);
-  }
+  const handleDeleteMember = memberRes => setMembers(memberRes);
 
   // updates member based on edits
   const handleEditMember = updatedMember => {
