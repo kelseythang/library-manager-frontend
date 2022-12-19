@@ -27,10 +27,7 @@ function NewMemberForm({ onAddMember }) {
 
   // snackbar status message
   const setSnackbar = useSetSnackbar();
-
-  const handleNotification = (message, type) => {
-    setSnackbar(message, type)
-  }
+  const handleNotification = (message, type) => setSnackbar(message, type);
 
   // handles state change
   const handleInputChange = e => {
@@ -61,7 +58,7 @@ function NewMemberForm({ onAddMember }) {
     
     // clears form inputs after form submit and alerts user
     setFormValues(initialState);
-    handleNotification('Member added to database', 'success');
+    handleNotification('Member Added to Library', 'success');
   }
 
   return (
