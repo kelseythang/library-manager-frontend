@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
 import { ColorModeContext, useMode } from '../contexts/ThemeContext';
 import { SnackbarContextProvider } from '../contexts/SnackbarContext';
@@ -49,9 +49,7 @@ function App() {
       setBooks(data[1]);
       setMembers(data[2]);
     }
-    ).catch(err =>
-      console.log(err)
-    )
+    ).catch(err => console.log(err))
   }, [])
 
   /////////////////////////////////////////////////////////
